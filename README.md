@@ -1,2 +1,2 @@
-# Sprint1
-Review point: Lab 3
+# MyRecipePal
+Software Engineering Group Project
