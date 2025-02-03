@@ -1,7 +1,6 @@
 # MyRecipePal
 Software Engineering Group Project
-HELLO
-how are you?
+
 ### Contributors
 
 <a href="https://github.com/skourde/MyRecipePal/graphs/contributors">
