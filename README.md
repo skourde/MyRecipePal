@@ -2,7 +2,7 @@
 Software Engineering Group Project
 HELLO
 how are you?
-<a href="https://github.com/skourde/MyRecipePal/contributors">
+<a href="https://github.com/skourde/MyRecipePal/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=othneildrew/Best-README-Template" alt="contrib.rocks image" />
 </a>
 
