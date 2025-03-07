@@ -27,18 +27,23 @@ SET time_zone = "+00:00";
 -- Table structure for table `test_table`
 --
 
-CREATE TABLE `test_table` (
-  `id` int NOT NULL,
-  `name` varchar(512) NOT NULL
+CREATE TABLE `User_List` (
+  `UserID` int NOT NULL,
+  `FirstName` varchar(255) NOT NULL
+  `LastName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE 'User_Profile' (
+  'Likes' int
+  'Comments' varchar(512)
+) 
 --
 -- Dumping data for table `test_table`
 --
 
-INSERT INTO `test_table` (`id`, `name`) VALUES
-(1, 'Lisa'),
-(2, 'Kimia');
+INSERT INTO `User_List` (`UserID`, `FirstName`, 'LastName') VALUES
+(1, 'Lisa', 'Haskel'),
+(2, 'Kimia', 'Bob');
 
 --
 -- Indexes for dumped tables
@@ -47,8 +52,8 @@ INSERT INTO `test_table` (`id`, `name`) VALUES
 --
 -- Indexes for table `test_table`
 --
-ALTER TABLE `test_table`
-  ADD PRIMARY KEY (`id`);
+--ALTER TABLE `test_table`
+ -- ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -57,9 +62,9 @@ ALTER TABLE `test_table`
 --
 -- AUTO_INCREMENT for table `test_table`
 --
-ALTER TABLE `test_table`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-COMMIT;
+--ALTER TABLE `test_table`
+--  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
