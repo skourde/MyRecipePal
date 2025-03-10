@@ -28,7 +28,7 @@ app.get("/db_test", function(req, res) {
 // Create a route for /goodbye
 // Responds to a 'GET' request
 app.get("/goodbye", function(req, res) {
-    res.send("Goodbye Sonja!");
+    res.send("Goodbye world!");
 });
 
 // Create a dynamic route for /hello/<name>, where name is any value provided by user
@@ -41,10 +41,38 @@ app.get("/hello/:name", function(req, res) {
     //  Retrieve the 'name' parameter and use it in a dynamically generated page
     res.send("Hello " + req.params.name);
 });
+//Listing page (Recipes list)
+app.get("/recipes/", function (req, res){
+    var sql = "SELECT recipe_id, title, image FROM recipe";
+    db.query(sql).then(results => {
+        res.render("recipes-list", {recipes: results});
+    });
+});
+app
+//single recipe? details of the recipe
+app.get("/recipes/:id", function (req, res){
+    var recipeId = req.params.id;
+    var sql = "SELECT recipe.*, user.FirstName AS user_firstname\
+        FROM recipe  \
+        JOIN user  ON recipe.user_id = user.user_id \
+        WHERE recipe.recipe_id = ?";
+    db.query(sql, [recipeId]).then(results => {
+        res.render("recipe", {
+            recipe: results[0]
+        }); 
+    });
+});
+app.get("/categories/", function(req, res){
+    var sql = "SELECT category_id, category_name FROM category";
+    db.query(sql).then(results => {
+        res.render("categories", {categories: results});
+    });
+});
+
+
 
 // Start server on port 3000
 app.listen(3000,function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
 });
 
-//I am committing
