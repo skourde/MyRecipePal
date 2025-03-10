@@ -54,7 +54,7 @@ app.get("/recipes/", function (req, res){
         res.render("recipes-list", {recipes: results});
     });
 });
-app
+
 //single recipe? details of the recipe
 app.get("/recipes/:id", function (req, res){
     var recipeId = req.params.id;
