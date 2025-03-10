@@ -20,11 +20,14 @@ const db = require('./services/db');
 // Get the user model
 const { User } = require("./models/user");
 
-// Create a route for root - /
-app.get("/", function(req, res) {
-    res.send("Hello world!");
-});
 
+// Define route for homepage
+app.get("/", (req, res) => {
+    var sql = "SELECT recipe_id, title FROM recipe"; // Modify this query as needed
+    db.query(sql).then(results => { 
+            res.json(results)
+    });
+});
 /* Using MySQL with node.js */
 //JSON formatted listing of users
 app.get("/user-list", function(req, res) {
