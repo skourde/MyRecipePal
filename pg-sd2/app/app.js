@@ -55,7 +55,7 @@ app.get("/recipes/", function (req, res){
     });
 });
 app
-//single recipe? details of the recipe
+//single recipe details of the recipe
 app.get("/recipes/:id", function (req, res){
     var recipeId = req.params.id;
     var sql = "SELECT recipe.*, user.FirstName AS user_firstname\
@@ -68,7 +68,7 @@ app.get("/recipes/:id", function (req, res){
         }); 
     });
 });
-
+// Categories page
 app.get("/categories/", function(req, res){
     var sql = "SELECT category_id, category_name FROM category";
     db.query(sql).then(results => {
