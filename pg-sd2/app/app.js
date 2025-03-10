@@ -63,17 +63,19 @@ app.get("/recipes/:id", function (req, res){
         JOIN user  ON recipe.user_id = user.user_id \
         WHERE recipe.recipe_id = ?";
     db.query(sql, [recipeId]).then(results => {
-        res.render("recipe", {
+        res.render("recipes", {
             recipe: results[0]
         }); 
     });
 });
+
 app.get("/categories/", function(req, res){
     var sql = "SELECT category_id, category_name FROM category";
     db.query(sql).then(results => {
         res.render("categories", {categories: results});
     });
 });
+
 
 
 
