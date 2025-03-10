@@ -1,20 +1,25 @@
-// 10/03/25
-// Faisa Ahmed
-// Detail page aka the actual recipe
 
-doctype html
-html
-  head
-    title= recipe.title
-  body
+
+extends layout
+
+block content
+  .recipe-page
     h1= recipe.title
-    if recipe.image
-      img(src=recipe.image, alt=recipe.title, width="400")
-    
-    p <strong>Created by:</strong> #{recipe.user_firstname}
-    p <strong>Description:</strong> #{recipe.description}
-    p <strong>Ingredients:</strong> #{recipe.ingredients}
-    p <strong>Instructions:</strong> #{recipe.instructions}
-    
-    // Optionally: Add a link back to the list of recipes
-    a(href="/recipes/") Go back to Recipes List
+    .recipe-details
+      if recipe.image
+        img(src=recipe.image, alt=recipe.title, class="recipe-image")
+      .recipe-info
+        p
+          strong Created by:
+          span= recipe.user_firstname
+        p
+          strong Description:
+          span= recipe.description
+        p
+          strong Ingredients:
+          span= recipe.ingredients
+        p
+          strong Instructions:
+          span= recipe.instructions
+    // Button to go back to recipe list
+    a(href="/recipes", class="back-button") Go back to Recipes List

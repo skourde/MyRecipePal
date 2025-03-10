@@ -1,0 +1,36 @@
+// Faisa: Im trying to create a standard layout 
+
+// This layout will contain the common elements such as:
+// the logo, navigation bar, and links that will appear on all pages. 
+// You'll then "extend" this layout in your individual Pug views.
+
+
+// layout.pug
+doctype html
+html
+  head
+    title= title || 'My Recipe Pal'
+    link(rel="stylesheet", href="/styles.css")
+  body
+    // Header with logo and navigation links
+    header
+      .logo
+        a(href="/") 
+          img(src="/images/logo.png", alt="Logo") 
+      nav
+        ul
+          li
+            a(href="/recipes") Recipes
+          li
+            a(href="/categories") Categories
+          li
+            a(href="/about") About Us
+          li
+            a(href="/contact") Contact
+    // Main content area
+    main
+      block content  // This is where the specific page content will be injected
+
+    // Footer
+    footer
+      p &copy; 2025 My Recipe Website. All Rights Reserved.
