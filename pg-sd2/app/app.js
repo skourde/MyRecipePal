@@ -4,6 +4,10 @@ const express = require("express");
 // Create express app
 var app = express();
 
+// Use the Pug templating engine
+app.set('view engine', 'pug');
+app.set('views', './app/views');
+
 // Add static files location
 app.use(express.static("static"));
 
@@ -41,6 +45,8 @@ app.get("/hello/:name", function(req, res) {
     //  Retrieve the 'name' parameter and use it in a dynamically generated page
     res.send("Hello " + req.params.name);
 });
+
+
 //Listing page (Recipes list)
 app.get("/recipes/", function (req, res){
     var sql = "SELECT recipe_id, title, image FROM recipe";
