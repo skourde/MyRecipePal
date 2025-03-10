@@ -1,0 +1,21 @@
+// Faisa
+
+doctype html
+html
+  head
+    title Categories
+  body
+    h1 Categories List
+    if categories.length > 0
+      table
+        thead
+          tr
+            th Category ID
+            th Category Name
+        tbody
+          each category in categories
+            tr
+              td= category.category_id
+              td= category.category_name
+    else
+      p No categories found.
