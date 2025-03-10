@@ -93,12 +93,14 @@ app.get("/recipes/:id", function (req, res){
         }); 
     });
 });
+
+
 app.get("/categories/", function(req, res){
     var sql = "SELECT category_id, category_name FROM category";
     db.query(sql).then(results => {
         res.render("categories", {categories: results});
     });
-});
+}); 
 
 
 

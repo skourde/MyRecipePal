@@ -8,6 +8,8 @@ doctype html
 html
   head
     title Categories
+    // Correct format for the link tag
+    link(rel="stylesheet", href="/categories.css")
   body
     h1 Categories List
     if categories.length > 0
@@ -23,3 +25,4 @@ html
               td= category.category_name
     else
       p No categories found.
+
