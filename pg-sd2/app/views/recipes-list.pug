@@ -1,0 +1,16 @@
+// Faisa - Listing page aka list of recipes
+
+doctype html
+html
+  head
+    title Recipes List
+  body
+    h1 Recipes List
+    if recipes.length > 0
+      ul
+        each recipe in recipes
+          li
+            h2= recipe.title
+            img(src=recipe.image, alt=recipe.title, width="200")
+    else
+      p No recipes found.

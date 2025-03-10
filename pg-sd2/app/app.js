@@ -4,19 +4,45 @@ const express = require("express");
 // Create express app
 var app = express();
 
+// Add static files location
+app.use(express.static("static"));
+
+// Create a route so that the user input can be captured in the backend
+app.use(express.urlencoded({ extended: true}));
+
 // Use the Pug templating engine
 app.set('view engine', 'pug');
 app.set('views', './app/views');
 
-// Add static files location
-app.use(express.static("static"));
-
 // Get the functions in the db.js file to use
 const db = require('./services/db');
+
+// Get the user model
+const { User } = require("./models/user");
 
 // Create a route for root - /
 app.get("/", function(req, res) {
     res.send("Hello world!");
+});
+
+/* Using MySQL with node.js */
+//JSON formatted listing of users
+app.get("/user-list", function(req, res) {
+    var sql = 'select * from user';
+    //as we are not inside an async function we cannot use await
+    //so we use .then syntax to ensure that we wait until the promise returned by the async function is resolved before we proceed
+    db.query(sql).then(results => {
+        console.log(results);
+        res.json(results)
+    });
+});
+
+//display a formatted list of users
+app.get("/user-list-formatted", function(req, res) {
+    var sql = 'select * from user';
+    db.query(sql).then(results => {
+            res.render('user-list', {data: results});
+    });
 });
 
 // Create a route for testing the db
@@ -46,7 +72,6 @@ app.get("/hello/:name", function(req, res) {
     res.send("Hello " + req.params.name);
 });
 
-
 //Listing page (Recipes list)
 app.get("/recipes/", function (req, res){
     var sql = "SELECT recipe_id, title, image FROM recipe";
@@ -54,7 +79,7 @@ app.get("/recipes/", function (req, res){
         res.render("recipes-list", {recipes: results});
     });
 });
-app
+
 //single recipe? details of the recipe
 app.get("/recipes/:id", function (req, res){
     var recipeId = req.params.id;
@@ -63,7 +88,7 @@ app.get("/recipes/:id", function (req, res){
         JOIN user  ON recipe.user_id = user.user_id \
         WHERE recipe.recipe_id = ?";
     db.query(sql, [recipeId]).then(results => {
-        res.render("recipe", {
+        res.render("recipes", {
             recipe: results[0]
         }); 
     });
@@ -81,4 +106,3 @@ app.get("/categories/", function(req, res){
 app.listen(3000,function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
 });
-
