@@ -22,12 +22,26 @@ const { User } = require("./models/user");
 
 
 // Define route for homepage
-app.get("/", (req, res) => {
-    var sql = "SELECT recipe_id, title FROM recipe"; // Modify this query as needed
-    db.query(sql).then(results => { 
-            res.json(results)
+app.get("/homepage/", function(req, res) {
+    var sql = 'SELECT * FROM recipe';
+    
+    db.query(sql).then(results => {
+        console.log("🔎 Query Results:", results); // Log database results
+
+        if (!results || results.length === 0) {
+            console.warn("⚠️ No recipes found in the database!");
+        }
+
+        res.render('homepage', { recipes: results });
+    }).catch(err => {
+        console.error("❌ Database Query Error:", err);
+        res.status(500).send("Error fetching recipes");
     });
 });
+
+
+
+
 /* Using MySQL with node.js */
 //JSON formatted listing of users
 app.get("/user-list", function(req, res) {
