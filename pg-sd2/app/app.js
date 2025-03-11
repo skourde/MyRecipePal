@@ -94,6 +94,23 @@ app.get("/hello/:name", function(req, res) {
     res.send("Hello " + req.params.name);
 });
 
+//Log in page
+app.get("/login", function (req, res){
+    res.send("This will be the log in page");
+    });
+
+//Sign in page
+app.get("/signup", function (req, res){
+    res.send("This will be the sign up page");
+    });
+
+//About us page
+app.get("/aboutus", function (req, res){
+    res.send("This will be the about us page");
+    });
+
+
+
 //Listing page (Recipes list)
 app.get("/recipes/", function (req, res){
     var sql = "SELECT recipe_id, title, image FROM recipe";

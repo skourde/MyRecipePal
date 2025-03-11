@@ -26,29 +26,32 @@ body {
     margin-bottom: 20px;
   }
   
-  /* Recipe Details: Image & Text Layout */
-  .recipe-details {
+ /* Recipe Details: Image & Text Layout */
+.recipe-details {
     display: flex;
     align-items: flex-start;
+    justify-content: flex-start; /* Align items to the start */
     gap: 20px;
-  }
-  
-  /* Recipe Image */
-  .recipe-image {
-    max-width: 250px;
+}
+
+/* Recipe Image - Force to the Left */
+.recipe-image {
+    width: 40%; /* Takes 40% of the space */
+    max-width: 300px;
     height: auto;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Recipe Info (Text Section) */
-  .recipe-info {
-    flex: 1;
+}
+
+/* Recipe Info - Force to the Right */
+.recipe-info {
+    width: 60%; /* Takes 60% of the space */
     background: #f4f4f4;
-    padding: 15px;
+    padding: 20px;
     border-radius: 10px;
-  }
-  
+    text-align: left; /* Ensures text is readable */
+}
+
   /* Bold Labels */
   .recipe-info strong {
     display: block;
