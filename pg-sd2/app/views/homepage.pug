@@ -1,24 +1,19 @@
-// This layout will contain the common elements such as:
-// the logo, navigation bar, and links that will appear on all pages. 
-// You'll then "extend" this layout in your individual Pug views.
+extends layout
 
+block content
+  section.hero
+    h1 Welcome to MyRecipePal
+    p Crave It, Cook It, Connect It...
 
+  section.recipes-container
+    if categories && categories.length
+      .recipe-grid
+        each category in categories
+          .recipe-card
+            h3= category.category_name 
+            img(src=category.image, alt=category.category_name)  
 
-
-
-
-
-html
-    head
-        title #{title}
-        meta(charset="UTF-8")
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
-        link(rel="stylesheet", href="/styles.css")
-    body
-        nav
-            a(href='/') Home
-            a(href='/about') About Us
-            a(href='/recipes') Recipes
-            a(href='/login') Login
-            a(href='/signup') Sign Up
-        block content
+    else
+      p No recipes found.
+    section.explore-more
+        a(href="/recipes").button View More Recipes
