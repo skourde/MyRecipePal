@@ -7,7 +7,10 @@ block head
 block content
   .hero-section
     h1 Explore the Best Recipes
-    a(href="#recipes") See All Recipes
+    .search-bar
+      input(type="text", placeholder="Search for recipes...")
+      button(type="submit") Search
+
   .container
     #recipes
     h2 Our Delicious Recipes
