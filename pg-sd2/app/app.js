@@ -26,7 +26,7 @@ app.get("/homepage/", function(req, res) {
     var sql = `
         SELECT category.category_id, category.category_name, recipe.image
         FROM category
-        JOIN recipe ON category.category_id = recipe.category_id
+        LEFT JOIN recipe ON category.category_id = recipe.category_id
     `;
 
     db.query(sql).then(results => {
@@ -36,7 +36,7 @@ app.get("/homepage/", function(req, res) {
             console.warn("⚠️ No recipes found in the database!");
         }
 
-        res.render('homepage', { categories: results.rows }); // Renamed to "categories"
+        res.render('homepage', { categories: results }); // Renamed to "categories"
     }).catch(err => {
         console.error("❌ Database Query Error:", err);
         res.status(500).send("Error fetching recipes");
