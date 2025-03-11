@@ -1,28 +1,25 @@
-// 10/03/25
-// Faisa Ahmed
-// Listing page aka list of recipes
 
-doctype html
-html
-  head
-    title Recipe List - Discover Delicious Recipes
-    link(rel="stylesheet", href="/recipes-list.css")
-  body
-    .hero-section
-      h1 Explore the Best Recipes
-      p Discover, Cook, Enjoy
-      a(href="#recipes") See All Recipes
-    .container
-      #recipes
-      h2 Our Delicious Recipes
-      if recipes.length > 0
-        .recipe-list
-          each recipe in recipes
-            .recipe-card
-              img(src=recipe.image, alt=recipe.title, class="recipe-image")
-              .recipe-info
-                h3= recipe.title
-                p= recipe.description
-              a(href=`/recipes/${recipe.recipe_id}`, class="view-recipe-btn") View Recipe
-      else
-        p No recipes found.
+
+extends layout
+block head
+  link(rel="stylesheet", href="/recipes-list.css")
+
+block content
+  .hero-section
+    h1 Explore the Best Recipes
+    a(href="#recipes") See All Recipes
+  .container
+    #recipes
+    h2 Our Delicious Recipes
+    if recipes.length > 0
+      .recipe-list
+        each recipe in recipes
+          .recipe-card
+            img(src=recipe.image, alt=recipe.title, class="recipe-image")
+            .recipe-info
+              h3= recipe.title
+              p= recipe.description
+            a(href=`/recipes/${recipe.recipe_id}`, class="view-recipe-btn") View Recipe
+    else
+      p No recipes found.
+

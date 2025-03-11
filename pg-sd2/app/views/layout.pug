@@ -10,12 +10,13 @@ doctype html
 html
   head
     title= title || 'My Recipe Pal'
-    link(rel="stylesheet", href="/styles.css")
+    link(rel="stylesheet", href="/layout.css")
+    block head
   body
     // Header with logo and navigation links
     header
       .logo
-        a(href="/") 
+        a(href="/homepage") 
           img(src="/images/logo.png", alt="Logo") 
       nav
         ul
@@ -26,11 +27,13 @@ html
           li
             a(href="/about") About Us
           li
-            a(href="/contact") Contact
+            a(href="/login") Log in
+          li
+            a(href="/sign in") Sign in
     // Main content area
     main
       block content  // This is where the specific page content will be injected
 
     // Footer
     footer
-      p &copy; 2025 My Recipe Website. All Rights Reserved.
+      p &copy; 2025 MyRecipePal. All Rights Reserved.
