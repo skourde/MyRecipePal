@@ -1,16 +1,10 @@
-// 10/03/25
-// Faisa Ahmed!!
-// This is a list of available recipe categories, 
-// which include different dietary preferences and types.
 
+extends layout 
 
-doctype html
-html
-  head
-    title Categories
-    // Correct format for the link tag
-    link(rel="stylesheet", href="/categories.css")
-  body
+block head
+  link(rel="stylesheet", href="/categories.css")
+
+block content
     h1 Categories List
     if categories.length > 0
       table

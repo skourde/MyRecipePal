@@ -1,0 +1,92 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+  
+  /* Recipe Page Container */
+  .recipe-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Recipe Title */
+  .recipe-page h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  /* Recipe Details: Image & Text Layout */
+  .recipe-details {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  /* Recipe Image */
+  .recipe-image {
+    max-width: 250px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Recipe Info (Text Section) */
+  .recipe-info {
+    flex: 1;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 10px;
+  }
+  
+  /* Bold Labels */
+  .recipe-info strong {
+    display: block;
+    color: #555;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  /* Button */
+  .back-button {
+    display: block;
+    text-align: center;
+    width: 100%;
+    max-width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #2c3e50;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .back-button:hover {
+    background: #1a252f;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 768px) {
+    .recipe-details {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .recipe-image {
+      max-width: 100%;
+    }
+  }
+  

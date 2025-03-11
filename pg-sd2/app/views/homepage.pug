@@ -6,13 +6,14 @@ block content
     p Crave It, Cook It, Connect It...
 
   section.recipes-container
-    if recipes && recipes.length
-      each recipe in recipes
-        .recipe-card
-          img(src=recipe.image, alt=recipe.title)
-          h3= recipe.title
-          p= recipe.description
+    if categories && categories.length
+      .recipe-grid
+        each category in categories
+          .recipe-card
+            h3= category.category_name 
+            img(src=category.image, alt=category.category_name)  
+
     else
       p No recipes found.
-      section.explore-more
-    a(href="/recipes").button View More Recipes
+    section.explore-more
+        a(href="/recipes").button View More Recipes

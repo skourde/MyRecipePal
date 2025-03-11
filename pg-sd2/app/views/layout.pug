@@ -10,12 +10,13 @@ doctype html
 html
   head
     title= title || 'My Recipe Pal'
-    link(rel="stylesheet", href="/styles.css")
+    link(rel="stylesheet", href="/layout.css")
+    block head
   body
     // Header with logo and navigation links
     header
       .logo
-        a(href="/") 
+        a(href="/homepage") 
           img(src="/images/logo.png", alt="Logo") 
       nav
         ul
@@ -35,4 +36,4 @@ html
 
     // Footer
     footer
-      p &copy; 2025 My Recipe Website. All Rights Reserved.
+      p &copy; 2025 MyRecipePal. All Rights Reserved.
