@@ -30,9 +30,9 @@ app.get("/homepage/", function(req, res) {
     `;
 
     db.query(sql).then(results => {
-        console.log("🔎 Query Results:", results.rows); // Log database results
+        console.log("🔎 Query Results:", results); // Log database results
 
-        if (!results.rows || results.rows.length === 0) {
+        if (!results || results.length === 0) {
             console.warn("⚠️ No recipes found in the database!");
         }
 
