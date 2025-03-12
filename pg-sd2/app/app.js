@@ -119,7 +119,7 @@ app.get("/recipes/", function (req, res){
     });
 });
 
-//single recipe? details of the recipe
+//single recipe- individual recipe details
 app.get("/recipes/:id", function (req, res){
     var recipeId = req.params.id;
     var sql = "SELECT recipe.*, user.FirstName AS user_firstname\
