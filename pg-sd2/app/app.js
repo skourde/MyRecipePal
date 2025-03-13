@@ -20,27 +20,18 @@ const db = require('./services/db');
 // Get the user model
 const { User } = require("./models/user");
 
-
 // Define route for homepage
 app.get("/homepage/", function(req, res) {
     var sql = `
-        SELECT 
-            category.category_id,  
-            category.category_name, 
-            (
-                SELECT recipe.image
-                FROM recipe
-                WHERE recipe.category_id = category.category_id
-                ORDER BY RAND()
-                LIMIT 1
-            ) AS image
-        FROM category;
+        SELECT category.category_id, category.category_name, recipe.image
+        FROM category
+        LEFT JOIN recipe ON category.category_id = recipe.category_id
     `;
 
     db.query(sql).then(results => {
-        console.log("🔎 Query Results:", results); // Log database results
+        console.log("🔎 Query Results:", results.rows); // Log database results
 
-        if (!results || results.length === 0) {
+        if (!results.rows || results.rows.length === 0) {
             console.warn("⚠️ No recipes found in the database!");
         }
 
@@ -51,28 +42,25 @@ app.get("/homepage/", function(req, res) {
     });
 });
 
-
-
-
-
-/* Using MySQL with node.js */
-//JSON formatted listing of users
+//User list page
 app.get("/user-list", function(req, res) {
-    var sql = 'select * from user';
-    //as we are not inside an async function we cannot use await
-    //so we use .then syntax to ensure that we wait until the promise returned by the async function is resolved before we proceed
+    var sql = 'SELECT * FROM user';
     db.query(sql).then(results => {
-        console.log(results);
-        res.json(results)
+        res.render('user-list', {data:results});
     });
 });
 
-//display a formatted list of users
-app.get("/user-list-formatted", function(req, res) {
-    var sql = 'select * from user';
-    db.query(sql).then(results => {
-            res.render('user-list', {data: results});
-    });
+//User profile page
+app.get("/user-profile/:id", async function(req, res) {
+    var UID = req.params.id;
+    //create user class with the ID passed
+    var user = new User(UID);
+    await user.getUserDetails();
+    await user.getUserRecipes();
+    //await user.getUserLikes();
+    //await user.getUserComments();
+    console.log(user);
+    res.render('user-profile', {user:user});
 });
 
 // Create a route for testing the db
@@ -117,8 +105,6 @@ app.get("/aboutus", function (req, res){
     res.send("This will be the about us page");
     });
 
-
-
 //Listing page (Recipes list)
 app.get("/recipes/", function (req, res){
     var sql = "SELECT recipe_id, title, image FROM recipe";
@@ -127,7 +113,7 @@ app.get("/recipes/", function (req, res){
     });
 });
 
-//single recipe- individual recipe details
+//Single recipe - individual recipe details
 app.get("/recipes/:id", function (req, res){
     var recipeId = req.params.id;
     var sql = "SELECT recipe.*, user.FirstName AS user_firstname\
@@ -141,15 +127,13 @@ app.get("/recipes/:id", function (req, res){
     });
 });
 
-
+//Categories page
 app.get("/categories/", function(req, res){
     var sql = "SELECT category_id, category_name FROM category";
     db.query(sql).then(results => {
         res.render("categories", {categories: results});
     });
 }); 
-
-
 
 // Start server on port 3000
 app.listen(3000,function(){

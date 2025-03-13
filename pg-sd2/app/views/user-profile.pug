@@ -1,0 +1,11 @@
+extends layout 
+block content 
+    p User profile for: #{user.firstName}
+    p The ID for the user is: #{user.user_id}
+    h2 Recipes
+    table(border=1)
+        for recipe in user.recipe
+            tr 
+                td #{recipe.recipe_id} 
+                td 
+                    a(href='/recipes/' + recipe.recipe_id) #{recipe.title}
