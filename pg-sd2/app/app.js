@@ -23,15 +23,23 @@ const { User } = require("./models/user");
 // Define route for homepage
 app.get("/homepage/", function(req, res) {
     var sql = `
-        SELECT category.category_id, category.category_name, recipe.image
-        FROM category
-        LEFT JOIN recipe ON category.category_id = recipe.category_id
+        SELECT 
+            category.category_id,  
+            category.category_name, 
+            (
+                SELECT recipe.image
+                FROM recipe
+                WHERE recipe.category_id = category.category_id
+                ORDER BY RAND()
+                LIMIT 1
+            ) AS image
+        FROM category;
     `;
 
     db.query(sql).then(results => {
-        console.log("🔎 Query Results:", results.rows); // Log database results
+        console.log("🔎 Query Results:", results); // Log database results
 
-        if (!results.rows || results.rows.length === 0) {
+        if (!results || results.length === 0) {
             console.warn("⚠️ No recipes found in the database!");
         }
 
