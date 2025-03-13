@@ -122,18 +122,26 @@ app.get("/recipes/", function (req, res){
 });
 
 //Single recipe - individual recipe details
-app.get("/recipes/:id", function (req, res){
+app.get("/recipes/:id", function (req, res) {
     var recipeId = req.params.id;
-    var sql = "SELECT recipe.*, user.FirstName AS user_firstname\
-        FROM recipe  \
-        JOIN user  ON recipe.user_id = user.user_id \
-        WHERE recipe.recipe_id = ?";
+    var sql = `
+      SELECT recipe.*, 
+             user.FirstName AS user_firstname,
+             (SELECT COUNT(*) FROM likes WHERE likes.recipe_id = recipe.recipe_id) AS like_count
+      FROM recipe
+      JOIN user ON recipe.user_id = user.user_id
+      WHERE recipe.recipe_id = ?`;
+      
     db.query(sql, [recipeId]).then(results => {
         res.render("recipes", {
             recipe: results[0]
         }); 
+    }).catch(err => {
+        console.error("❌ Database Query Error:", err);
+        res.status(500).send("Error fetching recipe details");
     });
 });
+
 
 //Categories page
 app.get("/categories/", function(req, res){
