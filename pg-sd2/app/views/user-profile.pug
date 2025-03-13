@@ -1,11 +1,26 @@
-extends layout 
-block content 
-    p User profile for: #{user.firstName}
-    p The ID for the user is: #{user.user_id}
-    h2 Recipes
-    table(border=1)
-        for recipe in user.recipe
-            tr 
-                td #{recipe.recipe_id} 
-                td 
-                    a(href='/recipes/' + recipe.recipe_id) #{recipe.title}
+extends layout
+
+block head
+  link(rel="stylesheet", href="/user-profile.css")
+
+block content
+  .user-profile-page
+    h1 User Profile for: #{user.firstName}
+    .user-details
+      p The ID for the user is: #{user.user_id}
+
+    .user-recipes
+      h2 Recipes
+      table(border=1)
+        thead
+          tr
+            th Recipe ID
+            th Recipe Title
+        tbody
+          for recipe in user.recipe
+            tr
+              td #{recipe.recipe_id}
+              td
+                a(href='/recipes/' + recipe.recipe_id) #{recipe.title}
+
+    a(href="/user-list", class="back-button") Go back to User List

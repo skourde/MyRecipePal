@@ -1,11 +1,19 @@
 extends layout 
-block content 
-    - console.log(data)
-    .main-content 
-    h1 User list
+
+block head
+  link(rel="stylesheet", href="/user-list.css")
+
+block content
+  .user-list-page
+    h1 User List
     table(border=1)
+      thead
+        tr
+          th User ID
+          th Name
+      tbody
         for item in data
-            tr 
-                td  #{item.user_id}
-                td 
-                    a(href='/user-profile/' + item.user_id) #{item.firstName}
+          tr
+            td #{item.user_id}
+            td
+              a(href='/user-profile/' + item.user_id) #{item.firstName}
