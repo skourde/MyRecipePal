@@ -1,0 +1,77 @@
+/* Optional breadcrumb style */
+.breadcrumb {
+    margin: 1rem 2rem;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Centers the entire login section */
+  .login-container {
+    width: 400px; /* Adjust as needed */
+    margin: 2rem auto;
+    text-align: center;
+  }
+  
+  /* Heading style */
+  .login-container h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 1.5rem;
+  }
+  
+  /* Container for each label+input pair (one "gray box") */
+  .input-field {
+    margin-bottom: 1rem;
+    text-align: left; /* Left-align the label and input text */
+  }
+  
+  /* The label itself can be hidden or shown, 
+     but here's a minimal style if you want it visible */
+  .input-field label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* The input that looks like a big gray box */
+  .input-field input {
+    width: 100%;
+    background-color: #555; /* Dark gray to match wireframe */
+    color: #fff;            /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  /* The "Log In" button as another big gray box */
+  .login-button {
+    display: block;
+    width: 100%;
+    background-color: #555; 
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .login-button:hover {
+    background-color: #666;
+  }
+  
+  /* Forgot Password link */
+  .forgot-password {
+    display: inline-block;
+    margin-top: 1rem;
+    text-decoration: underline;
+    color: #333;
+    font-weight: bold;
+  }
+  

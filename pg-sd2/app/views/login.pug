@@ -1,0 +1,23 @@
+extends layout
+
+block head
+  link(rel="stylesheet", href="/login.css")
+
+block content
+  
+
+  .login-container
+    h2 Login Here...
+
+    form(action="/login" method="POST")
+      .input-field
+        label(for="email") Email:
+        input(type="email" name="email" id="email" placeholder="Enter your email" required)
+
+      .input-field
+        label(for="password") Password:
+        input(type="password" name="password" id="password" placeholder="Enter your password" required)
+
+      button.login-button(type="submit") Log In
+
+    a.forgot-password(href="/forgot-password") Forgot Password...

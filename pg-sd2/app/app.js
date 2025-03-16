@@ -100,17 +100,17 @@ app.get("/hello/:name", function(req, res) {
 
 //Log in page
 app.get("/login", function (req, res){
-    res.send("This will be the log in page");
+    res.render("login");
     });
 
 //Sign in page
 app.get("/signup", function (req, res){
-    res.send("This will be the sign up page");
+    res.render("sign-up");
     });
 
 //About us page
 app.get("/aboutus", function (req, res){
-    res.send("This will be the about us page");
+    res.render("about-us");
     });
 
 //Listing page (Recipes list)
@@ -150,6 +150,8 @@ app.get("/categories/", function(req, res){
         res.render("categories", {categories: results});
     });
 }); 
+
+ 
 
 // Start server on port 3000
 app.listen(3000,function(){

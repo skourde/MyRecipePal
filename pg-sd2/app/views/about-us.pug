@@ -1,0 +1,22 @@
+extends layout
+
+block head
+  link(rel="stylesheet", href="/about-us.css")
+
+block content
+  section.about-us
+    h1 About Us...
+    .about-content
+      .description-box
+        p A bit about us...
+        // Add more paragraphs or content here if needed
+      .team-section
+        // Example: three headshots
+        .headshot
+          img(src="/images/headshot1.jpg", alt="Team Member 1")
+        .headshot
+          img(src="/images/headshot2.jpg", alt="Team Member 2")
+        .headshot
+          img(src="/images/headshot3.jpg", alt="Team Member 3")
+        .headshot
+          img(src="/images/headshot4.jpg", alt="Team Member 4")
