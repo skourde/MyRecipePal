@@ -1,22 +1,39 @@
 extends layout
 
 block head
-  link(rel="stylesheet", href="/about-us.css")
+  link(rel="stylesheet", href="/css/about-us.css")
 
 block content
-  section.about-us
-    h1 About Us...
-    .about-content
-      .description-box
-        p A bit about us...
-        // Add more paragraphs or content here if needed
-      .team-section
-        // Example: three headshots
-        .headshot
-          img(src="/images/headshot1.jpg", alt="Team Member 1")
-        .headshot
-          img(src="/images/headshot2.jpg", alt="Team Member 2")
-        .headshot
-          img(src="/images/headshot3.jpg", alt="Team Member 3")
-        .headshot
-          img(src="/images/headshot4.jpg", alt="Team Member 4")
+  // Hero section with a background gradient, matching the recipes page
+  section.hero
+    h1 About Us
+    p Discover our mission and meet our team.
+
+  // Main content area split into two columns
+  section.about-content
+    // Left Column: Description Box
+    .description-box
+      h2 Our Story
+      p At MyRecipePal, we believe that cooking connects people. Our mission is to bring delicious, healthy recipes to everyone.
+      p We are passionate about food and committed to sustainability, creativity, and innovation in the kitchen.
+      
+    // Right Column: Team Section
+    .team-section
+      h2 Meet the Team
+      .team-grid
+        .team-card
+          img(src="/images/team1.jpg", alt="Team Member 1")
+          h3 Sonja
+          p Front-End
+        .team-card
+          img(src="/images/team2.jpg", alt="Team Member 2")
+          h3 Sandora
+          p Back-End
+        .team-card
+          img(src="/images/team3.jpg", alt="Team Member 3")
+          h3 Faisa
+          p Front-End
+        .team-card
+          img(src="/images/team4.jpg", alt="Team Member 4")
+          h3 Gal
+          p Back-End
