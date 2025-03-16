@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title #{categoryName} Recipes
+    link(rel="stylesheet", href="/category_recipes.css")
+  body
+    h1 #{categoryName} Recipes:
+    ul
+      if recipes.length
+        each recipe in recipes
+          li
+            .recipe-card
+              if recipe.image
+                img(src=recipe.image, alt=recipe.title, class="recipe-image")
+              h2 #{recipe.title}
+              p By #{recipe.user_firstname}
+              p Likes: #{recipe.like_count}
+              a(href="/recipes/" + recipe.recipe_id) View Recipe
+      else
+        p.no-recipes No recipes found in this category.

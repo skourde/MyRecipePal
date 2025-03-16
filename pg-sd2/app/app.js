@@ -113,13 +113,65 @@ app.get("/aboutus", function (req, res){
     res.render("about-us");
     });
 
-//Listing page (Recipes list)
+/*//Listing page (Recipes list)
 app.get("/recipes/", function (req, res){
     var sql = "SELECT recipe_id, title, image FROM recipe";
     db.query(sql).then(results => {
         res.render("recipes-list", {recipes: results});
     });
+});*/
+
+// Listing page (Recipes list)
+app.get("/recipes/", function (req, res) {
+    var recipeSql = "SELECT recipe_id, title, image FROM recipe";
+    var categorySql = "SELECT category_id, category_name FROM category";
+
+    // Execute both queries
+    Promise.all([db.query(recipeSql), db.query(categorySql)])
+        .then(results => {
+            // results[0] contains the recipes, results[1] contains the categories
+            res.render("recipes-list", {
+                recipes: results[0] || [], // Default to an empty array if no recipes
+                categories: results[1] || [] // Default to an empty array if no categories
+            });
+        })
+        .catch(err => {
+            console.error('Error fetching recipes or categories:', err);
+            res.status(500).send('Error fetching recipes or categories');
+        });
 });
+
+// Single category - list recipes in the category
+app.get("/categories/:id", function (req, res) {
+    var categoryId = req.params.id;
+    var sql = `
+      SELECT recipe.*, 
+             user.FirstName AS user_firstname,
+             (SELECT COUNT(*) FROM likes WHERE likes.recipe_id = recipe.recipe_id) AS like_count,
+             category.category_name
+      FROM recipe
+      JOIN user ON recipe.user_id = user.user_id
+      JOIN category ON recipe.category_id = category.category_id
+      WHERE recipe.category_id = ?`;
+      
+    db.query(sql, [categoryId]).then(results => {
+        if (results.length > 0) {
+            res.render("category_recipes", {
+                recipes: results,
+                categoryName: results[0].category_name
+            });
+        } else {
+            res.status(404).send("No recipes found for this category");
+        }
+    }).catch(err => {
+        console.error("\u274C Database Query Error:", err);
+        res.status(500).send("Error fetching recipes for this category");
+    });
+});
+
+
+
+
 
 //Single recipe - individual recipe details
 app.get("/recipes/:id", function (req, res) {
