@@ -137,6 +137,32 @@ p.no-recipes {
   text-align: center;
 }
 
+/* Button Styling */
+.button {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #E3BCBA;  
+  color: white;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #ee0979; 
+}
+
+/* Explore More Section */
+section.explore-more {
+  text-align: center;
+  margin-top: 40px;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   /* Stack the recipe cards vertically on small screens */

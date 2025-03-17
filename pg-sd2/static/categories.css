@@ -84,26 +84,30 @@ section.categories-container h3 {
   background-color: #ee0979;
 }
 
+/* Button Styling */
+.button {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #E3BCBA;  
+  color: white;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: #ee0979; 
+}
+
 /* Explore More Section */
 section.explore-more {
   text-align: center;
   margin-top: 40px;
 }
 
-button {
-  background-color: #82e814;
-  color: white;
-  padding: 12px 25px;
-  font-size: 1.2em;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #005f73;
-}
 
 /* Responsiveness */
 @media (max-width: 768px) {
