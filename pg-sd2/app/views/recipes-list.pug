@@ -25,13 +25,4 @@ block content
     else
       p No recipes found.
 
-  .container
-    #categories
-      h3 Categories
-      if categories.length > 0
-        .category-list
-          each category in categories
-            .category-item
-              a(href=`/categories/${category.category_id}`)= category.category_name
-      else
-        p No categories found.
+
