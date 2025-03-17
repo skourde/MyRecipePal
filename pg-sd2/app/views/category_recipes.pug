@@ -1,11 +1,10 @@
+extends layout
 
+block head
+  link(rel="stylesheet", href="/category_recipes.css")
 
-doctype html
-html
-  head
-    title #{categoryName} Recipes
-    link(rel="stylesheet", href="/category_recipes.css")
-  body
+block content
+  section.hero
     h1 #{categoryName} Recipes:
     ul
       if recipes.length
@@ -17,6 +16,6 @@ html
               h2 #{recipe.title}
               p By #{recipe.user_firstname}
               p Likes: #{recipe.like_count}
-              a(href="/recipes/" + recipe.recipe_id) View Recipe
+              a(href="/recipes/" + recipe.recipe_id, class="view-recipe-btn") View Recipe
       else
         p.no-recipes No recipes found in this category.

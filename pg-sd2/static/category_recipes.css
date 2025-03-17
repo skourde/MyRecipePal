@@ -1,122 +1,149 @@
-/* Reset some basic styles */
+/* Global Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Global styles */
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto; /* Center the content */
-  }
-  
-  /* Container to center and add spacing */
-  .container {
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Title of the page */
-  h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  /* Recipe list styles */
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 20px;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  /* Hover effect on each recipe item */
-  li:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Recipe card (image + details) */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f9f6;
+  color: #E3BCBA;
+  line-height: 1.6;
+  padding: 5px;
+  max-width: 1200px;
+  margin: 0 auto; /* Center the content */
+}
+
+/* Category Heading */
+.hero h1 {
+  color: #333;  /* Dark color for better visibility */
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Remove Bullet Points from List */
+ul {
+  list-style-type: none;  /* Removes bullets */
+  padding: 0;
+  margin: 0;
+}
+
+
+/* Container for the Recipes */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Recipe List */
+.recipe-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+/* Recipe Cards - Cool Hover Effects */
+.recipe-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.recipe-card:hover {
+  transform: translateY(-10px); /* Slight lift on hover */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Recipe Image */
+.recipe-image {
+  border-radius: 10px;
+  width: 50%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.recipe-card:hover .recipe-image {
+  transform: scale(1.1); /* Slight zoom effect on image */
+}
+
+/* Recipe Info */
+.recipe-info h3 {
+  font-size: 1.6rem;
+  margin-top: 15px;
+  color: #333;
+}
+
+.recipe-info p {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin-top: 10px;
+  line-height: 1.4;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* View Recipe Button */
+.view-recipe-btn {
+  text-decoration: none;
+  background-color: #E3BCBA;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  margin-top: 15px;
+  font-weight: bold;
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.view-recipe-btn:hover {
+  background-color: #ee0979; 
+  transform: scale(1.05); /* Slight grow on hover */
+}
+
+/* Section Title */
+h2 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Styling for "No recipes found" */
+p {
+  font-size: 1.2rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Stack the recipe cards vertically on small screens */
   .recipe-card {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    flex-wrap: wrap;  /* Ensures it adapts to smaller screens */
+    flex-direction: column; 
+    align-items: flex-start;
   }
-  
-  /* Recipe image styling */
+
   .recipe-image {
-    width: 40%; /* Maximum width of 40% */
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 250px; /* Adjust height on smaller screens */
+    margin-bottom: 15px;
   }
-  
-  /* Recipe title styling */
-  h2 {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-weight: bold;
+
+  .recipe-info h3 {
+    font-size: 1.6rem;
   }
-  
-  /* Recipe user and like count styling */
-  p {
-    font-size: 1rem;
-    color: #7f8c8d;
-    margin: 5px 0;
-  }
-  
-  /* View Recipe link styling */
-  a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    margin-top: 15px;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-    color: #2980b9;
-  }
-  
-  /* No recipes found message styling */
-  .no-recipes {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #e74c3c;
-    margin-top: 20px;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .recipe-card {
-      flex-direction: column;  /* Stack recipe items on smaller screens */
-      align-items: flex-start;
-    }
-  
-    .recipe-image {
-      width: 100%;  /* Image takes up full width on smaller screens */
-      margin-bottom: 15px;
-    }
-  }
-  
+}

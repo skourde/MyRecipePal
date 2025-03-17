@@ -1,5 +1,8 @@
 extends layout
 
+block head
+  link(rel="stylesheet", href="/categories.css")
+
 block content
   section.hero
     h1 Welcome to MyRecipePal
@@ -14,7 +17,6 @@ block content
             a(href="/categories/" + category.category_id) #{category.category_name}
     else
       p No categories found.
-
 
   section.explore-more
     a(href="/recipes").button View More Recipes
