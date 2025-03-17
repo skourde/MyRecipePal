@@ -3,29 +3,34 @@ extends layout
 block head
   link(rel="stylesheet", href="/recipes.css")
 
-
 block content
   .recipe-page
     h1= recipe.title
     .recipe-details
       .recipe-content
-        if recipe.image
-          img(src=recipe.image, alt=recipe.title, class="recipe-image")
-        .recipe-info
-          p
-            strong Created by:
-            span= recipe.user_firstname
-          p
-            strong Description:
-            span= recipe.description
-          p
-            strong Ingredients:
-            span= recipe.ingredients
-          p
-            strong Instructions:
-            span= recipe.instructions
-          p
-            strong Likes:
-            span= recipe.like_count
+        // Image Container
+        .recipe-image-container
+          if recipe.image
+            img(src=recipe.image, alt=recipe.title, class="recipe-image")
+
+        // Recipe Info Container
+        .recipe-info-container
+          .recipe-info
+            p
+              strong Created by:
+              span= recipe.user_firstname
+            p
+              strong Description:
+              span= recipe.description
+            p
+              strong Ingredients:
+              span= recipe.ingredients
+            p
+              strong Instructions:
+              span= recipe.instructions
+            p
+              strong Likes:
+              span= recipe.like_count
+
     // Button to go back to recipe list
     a(href="/recipes", class="back-button") Go back to Recipes List
