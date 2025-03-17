@@ -30,7 +30,7 @@ p {
 
 /* Hero Section */
 section.hero {
-  background-color: #E3BCBA;
+  background: linear-gradient(to right,#E4C0BF,#E3BCBA,#E6A8AE,#E69AA7);
   color: #fff;
   padding: 60px 20px;
   text-align: center;

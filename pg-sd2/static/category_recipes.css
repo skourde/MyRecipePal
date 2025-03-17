@@ -5,25 +5,32 @@
   box-sizing: border-box;
 }
 
-/* Body Styles */
+/* Body and Global Styles */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f9f6;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f7f9fc;
   color: #333;
   line-height: 1.6;
-  padding: 5px;
-  max-width: 1200px;
-  margin: 0 auto; /* Center the content */
-  background-color: #f4f9f6;
+  overflow-x: hidden;
 }
 
-/* Category Heading */
-.hero h1 {
-  color: #2c3e50;  /* Darker color for better visibility */
-  font-size: 2.4rem;
-  margin-bottom: 30px;
+/* Hero Section with Background */
+.hero {
+  background: linear-gradient(to right,#E4C0BF,#E3BCBA,#E6A8AE,#E69AA7);
   text-align: center;
+  padding: 50px 20px;
+  position: relative;
 }
+
+
+.hero h1 {
+  color:white;
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
 
 /* Remove Bullet Points from List */
 ul {
@@ -35,6 +42,15 @@ ul {
   gap: 20px; /* Space between recipe cards */
   justify-content: center;
 }
+
+/* Container for the Recipes */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
 
 /* Recipe Cards */
 .recipe-card {

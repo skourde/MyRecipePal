@@ -5,7 +5,12 @@ block head
 
 block content
   section.hero
-    h1 #{categoryName} Recipes:
+    // Title Container
+    .category-title-container
+      h1 #{categoryName} Recipes
+  
+  // Recipe List Container
+  .container
     ul
       if recipes.length
         each recipe in recipes
