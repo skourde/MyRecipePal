@@ -1,22 +1,15 @@
-
-extends layout 
-
-block head
-  link(rel="stylesheet", href="/categories.css")
+extends layout
 
 block content
-    h1 Categories List
-    if categories.length > 0
-      table
-        thead
-          tr
-            th Category ID
-            th Category Name
-        tbody
+  .container
+    #categories
+      h3 Categories
+      if categories.length > 0
+        .category-list
           each category in categories
-            tr
-              td= category.category_id
-              td= category.category_name
-    else
-      p No categories found.
+            .category-item
+              a(href="/categories/" + category.category_id) #{category.category_name}
+      else
+        p No categories found.
+
 

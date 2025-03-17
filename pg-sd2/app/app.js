@@ -121,7 +121,7 @@ app.get("/recipes/", function (req, res){
     });
 });*/
 
-// Listing page (Recipes list)
+// Listing page (Recipes list) with categories in the button
 app.get("/recipes/", function (req, res) {
     var recipeSql = "SELECT recipe_id, title, image FROM recipe";
     var categorySql = "SELECT category_id, category_name FROM category";
@@ -170,9 +170,6 @@ app.get("/categories/:id", function (req, res) {
 });
 
 
-
-
-
 //Single recipe - individual recipe details
 app.get("/recipes/:id", function (req, res) {
     var recipeId = req.params.id;
@@ -195,13 +192,23 @@ app.get("/recipes/:id", function (req, res) {
 });
 
 
-//Categories page
-app.get("/categories/", function(req, res){
+// Route for Categories page
+app.get("/categories/", function(req, res) {
+    // SQL query to select category_id and category_name from the 'category' table
     var sql = "SELECT category_id, category_name FROM category";
-    db.query(sql).then(results => {
-        res.render("categories", {categories: results});
-    });
-}); 
+    
+    // Query the database
+    db.query(sql)
+        .then(results => {
+            // Render the 'categories' Pug template with the retrieved category data
+            res.render("categories", { categories: results });
+        })
+        .catch(err => {
+            // Handle any errors (e.g., if the database query fails)
+            console.error("Error querying categories:", err);
+            res.status(500).send("Internal Server Error");
+        });
+});
 
  
 
