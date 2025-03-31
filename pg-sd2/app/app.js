@@ -37,15 +37,15 @@ app.get("/homepage/", function(req, res) {
     `;
 
     db.query(sql).then(results => {
-        console.log("🔎 Query Results:", results); // Log database results
+        console.log("Query Results:", results); // Log database results
 
         if (!results || results.length === 0) {
-            console.warn("⚠️ No recipes found in the database!");
+            console.warn("No recipes found in the database!");
         }
 
         res.render('homepage', { categories: results }); // Renamed to "categories"
     }).catch(err => {
-        console.error("❌ Database Query Error:", err);
+        console.error("Database Query Error:", err);
         res.status(500).send("Error fetching recipes");
     });
 });
