@@ -1,0 +1,142 @@
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h3 {
+  color: #333;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1.1em;
+  color: #555;
+}
+
+/* Hero Section */
+section.hero {
+  background-color: #E3BCBA;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+section.hero h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+section.hero p {
+  font-size: 1.5em;
+  margin-top: 10px;
+}
+
+/* Categories Section */
+section.categories-container {
+  background-color: #fff;
+  padding: 40px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+section.categories-container h3 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.category-item {
+  background-color: #E3BCBA;
+  padding: 15px 30px;
+  border-radius: 5px;
+  color: #fff;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  font-size: 1.1em;
+}
+
+.category-item:hover {
+  background-color: #ee0979;
+}
+
+/* Explore More Section */
+section.explore-more {
+  text-align: center;
+  margin-top: 40px;
+}
+
+button {
+  background-color: #82e814;
+  color: white;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005f73;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  section.hero h1 {
+    font-size: 2.5em;
+  }
+
+  section.hero p {
+    font-size: 1.2em;
+  }
+
+  .category-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .category-item {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  section.hero h1 {
+    font-size: 2em;
+  }
+
+  section.hero p {
+    font-size: 1em;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px 0;
+  }
+}
