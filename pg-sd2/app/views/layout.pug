@@ -11,15 +11,16 @@ html
   head
     title= title || 'My Recipe Pal'
     link(rel="stylesheet", href="/layout.css")
+
+    link(href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap", rel="stylesheet")
+
     block head
+      
   body
     // Header with logo and navigation links
     header
-      .logo
-        a(href="/homepage/") 
-          img(src="/images/logo.png", alt="Logo") 
-        h1 MyRecipePal
-        p.slogan Crave It, Cook It, Connect It... 
+      h1 MyRecipePal
+      p.slogan Crave It, Cook It, Connect It... 
         
       nav
         ul
@@ -33,6 +34,8 @@ html
             a(href="/login") Log in 
           li
             a(href ="/signup") Sign Up
+          li
+            a(href ="/myaccount") My Account
     // Main content area
     main
       block content  // This is where the specific page content will be injected
