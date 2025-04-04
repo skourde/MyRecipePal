@@ -8,15 +8,15 @@ block content
     h1 Welcome to MyRecipePal
     p Crave It, Cook It, Connect It...
 
-  section.categories-container
-    h3 Recipes by category
-    if categories && categories.length > 0
-      .category-list
-        each category in categories
-          .category-item
-            a(href="/categories/" + category.category_id) #{category.category_name}
-    else
-      p No categories found.
+  .container
+    if recipes.length > 0
+      .recipe-grid
+        each recipe in recipes
+          .recipe-card
+            .image-wrapper
+              img.recipe-image(src=recipe.image, alt=recipe.title)
+              .cuisine-type= recipe.cuisineType
+            
 
-  section.explore-more
-    a(href="/recipes").button View More Recipes
+    else
+      p No featured recipes yet.
