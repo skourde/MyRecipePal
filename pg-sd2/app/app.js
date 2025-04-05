@@ -20,6 +20,12 @@ const db = require('./services/db');
 // Get the user model
 const { User } = require("./models/user");
 
+// Get the recipe model
+const { Recipe } = require("./models/recipe");
+
+//get the catergory model
+const { Category } = require("./models/category");
+
 // Define route for homepage
 app.get("/homepage", function (req, res) {
     const recipeSql = `
@@ -116,51 +122,40 @@ app.get("/recipes/", function (req, res){
 });*/
 
 // Listing page (Recipes list) with categories in the button
-app.get("/recipes/", function (req, res) {
-    var recipeSql = "SELECT recipe_id, title, image FROM recipe";
-    var categorySql = "SELECT category_id, category_name FROM category";
-
-    // Execute both queries
-    Promise.all([db.query(recipeSql), db.query(categorySql)])
-        .then(results => {
-            // results[0] contains the recipes, results[1] contains the categories
-            res.render("recipes-list", {
-                recipes: results[0] || [], // Default to an empty array if no recipes
-                categories: results[1] || [] // Default to an empty array if no categories
-            });
-        })
-        .catch(err => {
-            console.error('Error fetching recipes or categories:', err);
-            res.status(500).send('Error fetching recipes or categories');
+app.get("/recipes/", async function (req, res) {
+    try {
+        const recipes = await Recipe.getAllRecipes();
+        const categories = await Category.getAllCategories();
+        
+        res.render("recipes-list", {
+            recipes: recipes,
+            categories: categories || []
         });
+    } catch (err) {
+        console.error('Error fetching recipes or categories:', err);
+        res.status(500).send('Error fetching recipes or categories');
+    }
 });
 
 // Single category - list recipes in the category
-app.get("/categories/:id", function (req, res) {
-    var categoryId = req.params.id;
-    var sql = `
-      SELECT recipe.*, 
-             user.FirstName AS user_firstname,
-             (SELECT COUNT(*) FROM likes WHERE likes.recipe_id = recipe.recipe_id) AS like_count,
-             category.category_name
-      FROM recipe
-      JOIN user ON recipe.user_id = user.user_id
-      JOIN category ON recipe.category_id = category.category_id
-      WHERE recipe.category_id = ?`;
-      
-    db.query(sql, [categoryId]).then(results => {
-        if (results.length > 0) {
+app.get("/categories/:id", async function (req, res) {
+    const categoryId = req.params.id;
+
+    try {
+        const recipes = await Recipe.getRecipesByCategory(categoryId);
+
+        if (recipes.length > 0) {
             res.render("category_recipes", {
-                recipes: results,
-                categoryName: results[0].category_name
+                recipes: recipes,
+                categoryName: recipes[0].category_name // because it's now inside the Recipe object!
             });
         } else {
             res.status(404).send("No recipes found for this category");
         }
-    }).catch(err => {
-        console.error("\u274C Database Query Error:", err);
+    } catch (err) {
+        console.error("❌ Database Query Error:", err);
         res.status(500).send("Error fetching recipes for this category");
-    });
+    }
 });
 
 
@@ -186,23 +181,16 @@ app.get("/recipes/:id", function (req, res) {
 });
 
 
-// Route for Categories page
-app.get("/categories/", function(req, res) {
-    // SQL query to select category_id and category_name from the 'category' table
-    var sql = "SELECT category_id, category_name FROM category";
-    
-    // Query the database
-    db.query(sql)
-        .then(results => {
-            // Render the 'categories' Pug template with the retrieved category data
-            res.render("categories", { categories: results });
-        })
-        .catch(err => {
-            // Handle any errors (e.g., if the database query fails)
-            console.error("Error querying categories:", err);
-            res.status(500).send("Internal Server Error");
-        });
-});
+// Route for future possible Categories page
+//app.get("/categories/", async function(req, res) {
+//    try {
+//        const categories = await Category.getAllCategories();
+//        res.render("categories", { categories });
+//    } catch (err) {
+//        console.error("Error querying categories:", err);
+//        res.status(500).send("Internal Server Error");
+//    }
+//});
 
  
 
