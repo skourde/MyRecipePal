@@ -23,10 +23,12 @@ const { User } = require("./models/user");
 // Define route for homepage
 app.get("/homepage", function (req, res) {
     const recipeSql = `
-        SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name AS cuisineType
+        SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description,
+               category.category_name AS cuisineType,
+               category.category_id
         FROM recipe
         JOIN category ON recipe.category_id = category.category_id
-        LIMIT 4
+        LIMIT 6
     `;
 
     db.query(recipeSql)
@@ -42,6 +44,7 @@ app.get("/homepage", function (req, res) {
             });
         });
 });
+
 
 
 //User list page

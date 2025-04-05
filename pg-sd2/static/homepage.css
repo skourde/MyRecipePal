@@ -1,19 +1,31 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* Hero Section */
 section.hero {
   background-color: #E3BCBA;
   color: #fff;
   padding: 60px 20px;
   text-align: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 section.hero h1 {
-  font-size: 3em;
+  font-size: 4em;
   margin-bottom: 10px;
+  font-family: 'Lora', serif;
 }
 
 section.hero p {
-  font-size: 1.5em;
+  font-size: 2.4em;
   margin-top: 10px;
+  font-family: 'Dancing Script', cursive;
 }
 
 /* Recipe Grid Section */
@@ -21,23 +33,25 @@ section.hero p {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   margin-top: 40px;
+  width: 100%;
+  padding: 0 40px;
+  box-sizing: border-box;
+  margin-bottom: 100px; 
 }
 
 .recipe-card {
-  width: 220px;
+  width: 260px;
   border: 3px solid #E3BCBA;
   border-radius: 10px;
   background-color: #fff;
-  overflow: visible; /* allow tag to hang out */
+  overflow: visible;
   position: relative;
   text-align: center;
-  
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
-
 
 .recipe-card:hover {
   transform: scale(1.03);
@@ -59,19 +73,55 @@ section.hero p {
   display: block;
 }
 
-
+/* Cuisine Type Tag */
 .cuisine-type {
   position: absolute;
   bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(227, 188, 186, 0.9); 
+  background-color: rgba(227, 188, 186, 0.9);
   color: #fff;
   font-weight: bold;
-  font-size: 0.85em;
+  font-size: 1.2em;
   padding: 6px 16px;
   border-radius: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
+  font-family: 'Lora', serif;
+}
+
+/* Main wrapper override to allow full width content */
+main {
+  max-width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  section.hero h1 {
+    font-size: 2.5em;
+  }
+
+  section.hero p {
+    font-size: 1.8em;
+  }
+
+  .recipe-grid {
+    padding: 0 10px;
+    gap: 20px;
+  }
+
+  .recipe-card {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .image-wrapper {
+    height: 400px;
+  }
 }
 

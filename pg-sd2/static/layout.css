@@ -15,28 +15,27 @@ body {
 /* Header Styling */
 header {
   background-color: #7BA1B5;
-  padding: 10px 0;
+  font-family: 'Lora', serif;
+  padding: 30px 210px;
   display: flex;
   justify-content: space-between; /* Distribute logo and nav across the header */
   align-items: center; /* Center vertically */
-  padding: 0 200px; /* Add horizontal padding */
 }
 
-header .logo {
-  display: flex;
-  align-items: center; /* Vertically align logo and text */
+.slogan {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4em;
+  color: #ffffff;
+  margin-top: 4px;
+  margin-bottom: 0;
 }
 
-header .logo img {
-  width: 150px; /* Adjust logo size */
-  margin-right: 10px; /* Space between logo image and text */
-}
 
 header h1 {
   color: #ffffff;
   font-size: 2rem;
   font-weight: bold;
-  margin: 0; /* Remove default margin from h1 */
+   /* Remove default margin from h1 */
 }
 
 nav ul {
@@ -44,11 +43,13 @@ nav ul {
   display: flex;
   justify-content: center; /* Center the navigation links */
   gap: 30px;
+  
   margin-top: 10px;
 }
 
 nav ul li {
   font-size: 16px;
+  
 }
 
 nav ul li a {
@@ -56,6 +57,7 @@ nav ul li a {
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
+  
 }
 
 nav ul li a:hover {
