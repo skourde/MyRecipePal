@@ -199,6 +199,7 @@ class Recipe {
             throw err;
         }
     }
+
 }
 
 module.exports = { Recipe };
