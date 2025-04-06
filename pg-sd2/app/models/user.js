@@ -12,7 +12,7 @@ class User {
     firstName;
 
     //user recipes
-    recipe = [];
+    recipes = [];
 
     constructor(user_id) {
         this.user_id = user_id;
@@ -34,14 +34,12 @@ class User {
     async getUserRecipes() {
         var sql = "SELECT recipe_id, title, image FROM recipe WHERE user_id = ?";
         const results = await db.query(sql, [this.user_id]);
-        this.recipe = [];
+        this.recipes = [];
         for (var row of results) {
-            this.recipe.push(new Recipe(row.recipe_id, row.title, null, row.image));
-            // Passing image in constructor (description = null for now)
+            this.recipes.push(new Recipe(row.recipe_id, row.title, null, row.image));
         }
     }
     
-
     static async getAllUsers() {
         const sql = 'SELECT * FROM user';
         const results = await db.query(sql);

@@ -9,8 +9,8 @@ block content
 
     .user-recipes
       h2 Your Recipes
-      if user.recipe && user.recipe.length > 0
-        each recipe in user.recipe
+      if user.recipes && user.recipes.length > 0
+        each recipe in user.recipes
           .recipe
             h3= recipe.title
             img(src=recipe.image, alt=recipe.title)
@@ -43,5 +43,13 @@ block content
         input(type="file", name="image", accept="image/*")
 
         button(type="submit") Submit Recipe
+
+      each recipe in user.recipes
+        .recipe-card
+        h3= recipe.title
+        img(src=recipe.image, alt=recipe.title)
+        p= recipe.description
+        form(method="POST", action=`/recipes/delete/${recipe.recipe_id}`, onsubmit="return confirm('Are you sure you want to delete this recipe?');")
+          button(type="submit") Delete Recipe
 
     a(href="/user-list", class="back-button") Go back to User List

@@ -186,6 +186,18 @@ class Recipe {
             row.cuisineType
         ));
     }
+
+    //allow user to delete a recipe they posted
+    static async deleteById(recipe_id) {
+        const sql = `DELETE FROM recipe WHERE recipe_id = ?`;
+        try {
+            const result = await db.query(sql, [recipe_id]);
+            return result.affectedRows > 0;
+        } catch (err) {
+            console.error("Error deleting recipe:", err);
+            throw err;
+        }
+    }
 }
 
 module.exports = { Recipe };

@@ -343,6 +343,29 @@ app.post("/submit-recipe/:userId", upload.single("image"), async (req, res) => {
   }
 });
 
+//deleting a recipe
+app.post("/recipes/delete/:id", async function (req, res) {
+    const recipeId = req.params.id;
+
+    if (!req.session.userId) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    try {
+        const deleted = await Recipe.deleteById(recipeId);
+
+        if (deleted) {
+            console.log("Recipe deleted:", recipeId);
+            res.redirect(`/myaccount/${req.session.userId}`);
+        } else {
+            res.status(404).send("Recipe not found or already deleted");
+        }
+    } catch (err) {
+        console.error("Error deleting recipe:", err);
+        res.status(500).send("Error deleting recipe");
+    }
+});
+
 // Start server on port 3000
 app.listen(3000,function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
