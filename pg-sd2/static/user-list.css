@@ -8,22 +8,63 @@ body {
     line-height: 1.6;
 }
 
-/* User List Page Container */
+/* Hero Section with Background */
 .user-list-page {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, #E4C0BF, #E3BCBA, #E6A8AE, #E69AA7);
+    text-align: center;
+    padding: 50px 20px;
+    position: relative;
 }
 
-/* Page Header */
-.user-list-page h1 {
+/* Container for the Title */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
     text-align: center;
-    font-size: 28px;
-    color: #E3BCBA;
-    margin-bottom: 20px;
+}
+
+/* Title Styling */
+.user-list-page h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.search-bar input[type="text"] {
+    padding: 12px 20px;
+    font-size: 1rem;
+    width: 40%;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    background-color: #ee0979;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #E2E2E2;
 }
 
 /* Table Styling */

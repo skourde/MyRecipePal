@@ -5,22 +5,26 @@ block head
 
 block content
   .user-profile-page
-    h1 User Profile for: #{user.firstName}
+    h1 #{user.firstName}'s Recipes
     .user-details
-      p The ID for the user is: #{user.user_id}
+      p These are all the delicious recipes posted by #{user.firstName} #{user.lastName}.
 
     .user-recipes
-      h2 Recipes
-      table(border=1)
-        thead
-          tr
-            th Recipe ID
-            th Recipe Title
-        tbody
-          for recipe in user.recipe
-            tr
-              td #{recipe.recipe_id}
-              td
-                a(href='/recipes/' + recipe.recipe_id) #{recipe.title}
+      h2  
+
+      .container
+        ul
+          if user.recipe.length
+            each recipe in user.recipe
+              li
+                .recipe-card
+                  if recipe.image
+                    img(src=recipe.image, alt=recipe.title, class="recipe-image")
+                  h2 #{recipe.title}
+                  p Likes: #{recipe.like_count || 0}
+                  a(href="/recipes/" + recipe.recipe_id, class="view-recipe-btn") View Recipe
+          else
+            p.no-recipes This user hasn't posted any recipes yet.
 
     a(href="/user-list", class="back-button") Go back to User List
+    a(href="/homepage", class="back-button") Go back to Homepage

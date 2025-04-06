@@ -18,7 +18,9 @@ block content
           .recipe-info
             p
               strong Created by:
-              span= recipe.user_firstname
+              a(href=`/user-profile/${recipe.user_id}`)
+                span= recipe.user_firstname
+              
             p
               strong Description:
               span= recipe.description

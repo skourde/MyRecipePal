@@ -1,19 +1,43 @@
-extends layout 
+extends layout
 
 block head
   link(rel="stylesheet", href="/user-list.css")
 
 block content
   .user-list-page
-    h1 User List
-    table(border=1)
-      thead
-        tr
-          th User ID
-          th Name
-      tbody
-        for item in data
-          tr
-            td #{item.user_id}
-            td
-              a(href='/user-profile/' + item.user_id) #{item.firstName}
+    // Hero Section (title, description, and search bar)
+    .hero-container
+      h1 Recipe Pal's User Directory
+      p Discover our community of passionate home cooks and food enthusiasts. Explore profiles, connect with others, and share your culinary journey.
+
+      // Search Section
+      .search-bar
+        input(type="text" id="searchInput" placeholder="Search by name..." oninput="filterUsers()")
+        button(id="searchButton", type="button") Search
+
+  // User List Table (this will remain with the white background)
+  table(border=1)
+    thead
+      tr
+        th All Recipe Pals
+    tbody(id="userList")
+      each item in data
+        tr(class="user-row")
+          td
+            a(href='/user-profile/' + item.user_id) #{item.firstName}
+
+  // Add this to make the search functional
+  script.
+    function filterUsers() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const userRows = document.querySelectorAll('.user-row');
+
+      userRows.forEach(row => {
+        const userName = row.textContent.toLowerCase();
+        if (userName.includes(searchInput)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
