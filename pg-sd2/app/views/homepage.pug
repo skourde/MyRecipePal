@@ -18,8 +18,10 @@ block content
         each recipe in recipes
           .recipe-card
             .image-wrapper
-              img.recipe-image(src=recipe.image, alt=recipe.title)
-              .cuisine-type= recipe.category_name
+              a(href="/categories/" + recipe.category_id)
+                img.recipe-image(src=recipe.image, alt=recipe.title)
+            .cuisine-type= recipe.category_name
+
             
 
     else
