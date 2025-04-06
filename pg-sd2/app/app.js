@@ -47,31 +47,19 @@ const { Recipe } = require("./models/recipe");
 const { Category } = require("./models/category");
 
 // Define route for homepage
-app.get("/homepage", function (req, res) {
-    const recipeSql = `
-        SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name AS cuisineType
-        FROM recipe
-        JOIN category ON recipe.category_id = category.category_id
-        LIMIT 5
-    `;
-
-    db.query(recipeSql)
-        .then(results => {
-            res.render("homepage", {
-                recipes: results || []
-            });
-        })
-        .catch(err => {
-            console.error('Error fetching featured recipes:', err);
-            res.render("homepage", {
-                recipes: []
-            });
+app.get("/homepage", async function (req, res) {
+    try {
+        const recipes = await Recipe.getFeaturedRecipes();
+        res.render("homepage", {
+            recipes: recipes || []
         });
+    } catch (err) {
+        console.error('❌ Error fetching featured recipes:', err);
+        res.render("homepage", {
+            recipes: []
+        });
+    }
 });
-
-
-
-
 
 //set up multer storage
 const storage = multer.diskStorage ({
@@ -118,6 +106,14 @@ app.get("/user-profile/:id", async function(req, res) {
     res.render('user-profile', {user:user});
 });
 
+app.get("/myaccount", function (req, res) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    res.redirect(`/myaccount/${req.session.userId}`);
+});
+
 app.get("/myaccount/:id", async function (req, res) {
     const userIdFromUrl = req.params.id;
 
@@ -135,7 +131,7 @@ app.get("/myaccount/:id", async function (req, res) {
     try {
         const user = new User(userIdFromUrl);
         await user.getUserDetails();
-        await user.getUserRecipes();  // This will populate user.recipes
+        await user.getUserRecipes();
 
         const categories = await db.query("SELECT * FROM category");
         res.render("myaccount", { user: user, categories: categories });
@@ -337,6 +333,29 @@ app.post("/submit-recipe/:userId", upload.single("image"), async (req, res) => {
     console.error("Failed to save recipe:", err);
     res.status(500).send("There was an error submitting your recipe.");
   }
+});
+
+//deleting a recipe
+app.post("/recipes/delete/:id", async function (req, res) {
+    const recipeId = req.params.id;
+
+    if (!req.session.userId) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    try {
+        const deleted = await Recipe.deleteById(recipeId);
+
+        if (deleted) {
+            console.log("Recipe deleted:", recipeId);
+            res.redirect(`/myaccount/${req.session.userId}`);
+        } else {
+            res.status(404).send("Recipe not found or already deleted");
+        }
+    } catch (err) {
+        console.error("Error deleting recipe:", err);
+        res.status(500).send("Error deleting recipe");
+    }
 });
 
 // Start server on port 3000

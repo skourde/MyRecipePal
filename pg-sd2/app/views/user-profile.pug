@@ -11,18 +11,19 @@ block content
 
     .container
       ul
-        if user.recipe.length
-          each recipe in user.recipe
+        if user.recipes.length
+          each recipe in user.recipes
             li
               .recipe-card
                 if recipe.image
                   img(src=recipe.image, alt=recipe.title, class="recipe-image")
                 .recipe-info
                   h3 #{recipe.title}
-                  p Likes: #{recipe.like_count || 0}
+                  p Likes: #{recipe.like_count}
                   a(href="/recipes/" + recipe.recipe_id, class="view-recipe-btn") View Recipe
         else
           p.no-recipes This user hasn't posted any recipes yet.
 
-    a(href="/user-list", class="back-button") Go back to User List
-    a(href="/homepage", class="back-button") Go back to Homepage
+  .button-group
+    a(href="/user-list", class="back-button") Browse Recipe Creators
+    a(href="/recipes", class="back-button") Explore more recipes
