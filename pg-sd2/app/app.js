@@ -47,7 +47,6 @@ const { Recipe } = require("./models/recipe");
 const { Category } = require("./models/category");
 
 // Define route for homepage
-<<<<<<< HEAD
 app.get("/homepage", function (req, res) {
     const recipeSql = `
         SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description,
@@ -70,16 +69,6 @@ app.get("/homepage", function (req, res) {
                 recipes: []
             });
         });
-=======
-app.get("/homepage", async function (req, res) {
-    try {
-        const recipes = await Recipe.getFeaturedRecipes();
-        res.render("homepage", { recipes: recipes });
-    } catch (err) {
-        console.error('Error fetching featured recipes:', err);
-        res.render("homepage", { recipes: [] });
-    }
->>>>>>> e6502e6890fe105238f4d1a018a877bc24dd5d9a
 });
 
 //set up multer storage
