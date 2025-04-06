@@ -166,7 +166,7 @@ class Recipe {
         // Fetch featured recipes (for homepage)
     static async getFeaturedRecipes() {
         const sql = `
-            SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name
+            SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, recipe.category_id, category.category_name
             FROM recipe
             JOIN category ON recipe.category_id = category.category_id
             LIMIT 5
