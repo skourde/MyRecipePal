@@ -69,10 +69,6 @@ app.get("/homepage", function (req, res) {
         });
 });
 
-
-
-
-
 //set up multer storage
 const storage = multer.diskStorage ({
     destination: function (req, file, cb) {
@@ -143,7 +139,7 @@ app.get("/myaccount/:id", async function (req, res) {
     try {
         const user = new User(userIdFromUrl);
         await user.getUserDetails();
-        await user.getUserRecipes();  // This will populate user.recipes
+        await user.getUserRecipes();
 
         const categories = await db.query("SELECT * FROM category");
         res.render("myaccount", { user: user, categories: categories });

@@ -9,8 +9,8 @@ block content
 
     .user-recipes
       h2 Your Recipes
-      if user.recipes && user.recipes.length > 0
-        each recipe in user.recipes
+      if user.recipe && user.recipe.length > 0
+        each recipe in user.recipe
           .recipe
             h3= recipe.title
             img(src=recipe.image, alt=recipe.title)
