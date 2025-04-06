@@ -11,8 +11,8 @@ block content
 
     .container
       ul
-        if user.recipe.length
-          each recipe in user.recipe
+        if user.recipes.length
+          each recipe in user.recipes
             li
               .recipe-card
                 if recipe.image
