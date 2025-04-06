@@ -34,6 +34,7 @@ class User {
     async getUserRecipes() {
         var sql = "SELECT recipe_id, title, image FROM recipe WHERE user_id = ?";
         const results = await db.query(sql, [this.user_id]);
+        this.recipe = [];
         for (var row of results) {
             this.recipe.push(new Recipe(row.recipe_id, row.title, null, row.image));
             // Passing image in constructor (description = null for now)
