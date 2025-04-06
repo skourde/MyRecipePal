@@ -61,6 +61,24 @@ class User {
             ''             // empty lastName
         ]);
     }
+    static async findByEmailAndPassword(email, password) {
+        const sql = `
+            SELECT * FROM user
+            WHERE email = ? AND password = ?
+            LIMIT 1
+        `;
+        const results = await db.query(sql, [email, password]);
+    
+        if (results.length > 0) {
+            const row = results[0];
+            const user = new User(row.user_id);
+            user.firstName = row.firstName;
+            user.email = row.email;
+            return user;
+        } else {
+            return null;
+        }
+    }
     
 
 }

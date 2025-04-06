@@ -95,7 +95,29 @@ app.get("/hello/:name", function(req, res) {
 app.get("/login", function (req, res){
     res.render("login");
     });
-
+    app.post("/login", async function (req, res) {
+        try {
+            const { email, password } = req.body;
+    
+            if (!email || !password) {
+                return res.status(400).send("Please fill all required fields.");
+            }
+    
+            const user = await User.findByEmailAndPassword(email, password);
+    
+            if (user) {
+                console.log("✅ User logged in:", user.firstName);
+                res.redirect("/homepage"); // later we can redirect to profile
+            } else {
+                console.log("❌ Login failed for:", email);
+                res.status(401).send("Invalid email or password.");
+            }
+        } catch (err) {
+            console.error("❌ Error during login:", err);
+            res.status(500).send("Error during login.");
+        }
+    });
+    
 //Sign in page
 app.get("/signup", function (req, res){
     res.render("sign-up");
