@@ -61,14 +61,6 @@ app.get("/homepage", async function (req, res) {
     }
 });
 
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> 6295e9234311171fbfd6c239b4c60eccc590be43
 //set up multer storage
 const storage = multer.diskStorage ({
     destination: function (req, file, cb) {
