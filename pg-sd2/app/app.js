@@ -118,6 +118,14 @@ app.get("/user-profile/:id", async function(req, res) {
     res.render('user-profile', {user:user});
 });
 
+app.get("/myaccount", function (req, res) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    res.redirect(`/myaccount/${req.session.userId}`);
+});
+
 app.get("/myaccount/:id", async function (req, res) {
     const userIdFromUrl = req.params.id;
 
