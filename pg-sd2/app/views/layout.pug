@@ -30,12 +30,16 @@ html
             a(href="/aboutus") About Us
           li
             a(href="/recipes") Recipes
-          li
-            a(href="/login") Log in 
-          li
-            a(href ="/signup") Sign Up
-          li
-            a(href ="/myaccount") My Account
+          if loggedIn
+            li
+              a(href="/myaccount") My Account
+            li
+              a(href="/logout") Logout
+          else
+            li
+              a(href="/login") Log in
+            li
+              a(href="/signup") Sign Up
     // Main content area
     main
       block content  // This is where the specific page content will be injected

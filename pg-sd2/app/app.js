@@ -1,6 +1,9 @@
 // Import express.js
 const express = require("express");
 
+// Import express-session middleware for managing user sessions
+const session = require('express-session');
+
 // Create express app
 var app = express();
 
@@ -9,6 +12,21 @@ app.use(express.static("static"));
 
 // Create a route so that the user input can be captured in the backend
 app.use(express.urlencoded({ extended: true}));
+
+// Set up session middleware
+// This will allow us to store user data (like user ID) across multiple requests
+app.use(session({
+    secret: 'yourSecretKey',  // Secret key used to sign the session ID cookie (change this for production)
+    resave: false,            // Do not save session if nothing changed
+    saveUninitialized: false  // Do not create empty sessions
+  }));
+
+// Middleware to make loggedIn status available to all templates
+app.use(function(req, res, next) {
+    res.locals.loggedIn = !!req.session.userId; // true if user is logged in, false if not
+    next();
+});
+
 
 // Use the Pug templating engine
 app.set('view engine', 'pug');
@@ -106,6 +124,8 @@ app.get("/login", function (req, res){
             const user = await User.findByEmailAndPassword(email, password);
     
             if (user) {
+                // Store user ID inside session to keep user logged in
+                req.session.userId = user.user_id;
                 console.log("✅ User logged in:", user.firstName);
                 res.redirect("/homepage"); // later we can redirect to profile
             } else {
@@ -117,6 +137,16 @@ app.get("/login", function (req, res){
             res.status(500).send("Error during login.");
         }
     });
+
+    // Logout route
+app.get("/logout", function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            console.error("❌ Error destroying session:", err);
+        }
+        res.redirect("/login"); // Redirect to login page after logout
+    });
+});
     
 //Sign in page
 app.get("/signup", function (req, res){
@@ -230,4 +260,13 @@ app.get("/recipes/:id", async function (req, res) {
 // Start server on port 3000
 app.listen(3000,function(){
     console.log(`Server running at http://127.0.0.1:3000/`);
+});
+
+// Test session route
+app.get("/session-test", function (req, res) {
+    if (req.session.userId) {
+        res.send(`✅ Session is active! User ID: ${req.session.userId}`);
+    } else {
+        res.send("❌ No active session. Please log in.");
+    }
 });
