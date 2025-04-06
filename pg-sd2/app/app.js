@@ -1,5 +1,8 @@
 // Import express.js
 const express = require("express");
+// Import multer for handling file uploads
+const multer = require("multer");
+const path = require("path");
 
 // Import express-session middleware for managing user sessions
 const session = require('express-session');
@@ -27,7 +30,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 // Use the Pug templating engine
 app.set('view engine', 'pug');
 app.set('views', './app/views');
@@ -41,7 +43,7 @@ const { User } = require("./models/user");
 // Get the recipe model
 const { Recipe } = require("./models/recipe");
 
-//get the catergory model
+// Get the category model
 const { Category } = require("./models/category");
 
 // Define route for homepage
@@ -55,6 +57,18 @@ app.get("/homepage", async function (req, res) {
     }
 });
 
+//set up multer storage
+const storage = multer.diskStorage ({
+    destination: function (req, file, cb) {
+        cb(null, "./static/uploads"); //image uploads will be stored here
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({storage:storage});
+
 app.get('/recipes-list', (req, res) => {
     const searchQuery = req.query.search || ''; // Get search query from URL
     
@@ -65,7 +79,6 @@ app.get('/recipes-list', (req, res) => {
     
     res.render('recipes-list', { recipes: filteredRecipes });
   });
-  
 
 //User list page
 app.get("/user-list", async function(req, res) {
@@ -73,11 +86,10 @@ app.get("/user-list", async function(req, res) {
         const users = await User.getAllUsers();
         res.render('user-list', { data: users });
     } catch (err) {
-        console.error("❌ Error fetching users:", err);
+        console.error("Error fetching users:", err);
         res.status(500).send("Error fetching users");
     }
 });
-
 
 //User profile page
 app.get("/user-profile/:id", async function(req, res) {
@@ -86,10 +98,35 @@ app.get("/user-profile/:id", async function(req, res) {
     var user = new User(UID);
     await user.getUserDetails();
     await user.getUserRecipes();
-    //await user.getUserLikes();
-    //await user.getUserComments();
     console.log(user);
     res.render('user-profile', {user:user});
+});
+
+app.get("/myaccount/:id", async function (req, res) {
+    const userIdFromUrl = req.params.id;
+
+    // Check if the user is logged in (verify session)
+    if (!req.session.userId) {
+        return res.redirect("/login");  // Redirect to login if not logged in
+    }
+
+    // Check if the logged-in user's ID matches the ID in the URL
+    if (req.session.userId !== parseInt(userIdFromUrl)) {
+        return res.status(403).send("You are not authorized to view this page.");
+    }
+
+    // Fetch user data
+    try {
+        const user = new User(userIdFromUrl);
+        await user.getUserDetails();
+        await user.getUserRecipes();  // This will populate user.recipes
+
+        const categories = await db.query("SELECT * FROM category");
+        res.render("myaccount", { user: user, categories: categories });
+    } catch (err) {
+        console.error("Error fetching user profile:", err);
+        res.status(500).send("Error fetching user profile.");
+    }
 });
 
 // Create a route for testing the db
@@ -123,36 +160,37 @@ app.get("/hello/:name", function(req, res) {
 app.get("/login", function (req, res){
     res.render("login");
     });
-    app.post("/login", async function (req, res) {
-        try {
-            const { email, password } = req.body;
-    
-            if (!email || !password) {
-                return res.status(400).send("Please fill all required fields.");
-            }
-    
-            const user = await User.findByEmailAndPassword(email, password);
-    
-            if (user) {
-                // Store user ID inside session to keep user logged in
-                req.session.userId = user.user_id;
-                console.log("✅ User logged in:", user.firstName);
-                res.redirect("/homepage"); // later we can redirect to profile
-            } else {
-                console.log("❌ Login failed for:", email);
-                res.status(401).send("Invalid email or password.");
-            }
-        } catch (err) {
-            console.error("❌ Error during login:", err);
-            res.status(500).send("Error during login.");
-        }
-    });
 
-    // Logout route
+app.post("/login", async function (req, res) {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).send("Please fill all required fields.");
+        }
+
+        const user = await User.findByEmailAndPassword(email, password);
+
+        if (user) {
+            // Store user ID inside session to keep user logged in
+            req.session.userId = user.user_id;
+            console.log("User logged in:", user.firstName);
+            res.redirect("/homepage"); // later we can redirect to profile
+        } else {
+            console.log("Login failed for:", email);
+            res.status(401).send("Invalid email or password.");
+        }
+    } catch (err) {
+        console.error("Error during login:", err);
+        res.status(500).send("Error during login.");
+    }
+});
+
+// Logout route
 app.get("/logout", function (req, res) {
     req.session.destroy(function (err) {
         if (err) {
-            console.error("❌ Error destroying session:", err);
+            console.error("Error destroying session:", err);
         }
         res.redirect("/login"); // Redirect to login page after logout
     });
@@ -162,6 +200,7 @@ app.get("/logout", function (req, res) {
 app.get("/signup", function (req, res){
     res.render("sign-up");
     });
+
 // POST route for handling user sign-up
 app.post("/signup", async function (req, res) {
     try {
@@ -173,12 +212,12 @@ app.post("/signup", async function (req, res) {
 
         await User.createUser(fullname, email, password);
 
-        console.log("✅ New user inserted:", fullname);
+        console.log("New user inserted:", fullname);
 
         res.redirect("/login");
 
     } catch (err) {
-        console.error("❌ Error signing up:", err);
+        console.error("Error signing up:", err);
         res.status(500).send("Error signing up user.");
     }
 });
@@ -228,11 +267,10 @@ app.get("/categories/:id", async function (req, res) {
             res.status(404).send("No recipes found for this category");
         }
     } catch (err) {
-        console.error("❌ Database Query Error:", err);
+        console.error("Database Query Error:", err);
         res.status(500).send("Error fetching recipes for this category");
     }
 });
-
 
 //Single recipe - individual recipe details
 app.get("/recipes/:id", async function (req, res) {
@@ -247,12 +285,10 @@ app.get("/recipes/:id", async function (req, res) {
             res.status(404).send("Recipe not found");
         }
     } catch (err) {
-        console.error("❌ Database Query Error:", err);
+        console.error("Database Query Error:", err);
         res.status(500).send("Error fetching recipe details");
     }
 });
-
-
 
 // Route for future possible Categories page
 //app.get("/categories/", async function(req, res) {
@@ -265,7 +301,27 @@ app.get("/recipes/:id", async function (req, res) {
 //    }
 //});
 
- 
+//posting a recipe
+app.post("/submit-recipe/:userId", upload.single("image"), async (req, res) => {
+    const user_id = req.params.userId;
+
+  try {
+    const recipe = await Recipe.create ({
+      title: req.body.title,
+      description: req.body.description,
+      ingredients: req.body.ingredients,
+      instructions: req.body.instructions,
+      image: req.file ? "/uploads/" + req.file.filename : null,
+      user_id: user_id,
+      category_id: req.body.category_id || null,
+    });
+
+    res.redirect(`/myaccount/${user_id}`);
+  } catch (err) {
+    console.error("Failed to save recipe:", err);
+    res.status(500).send("There was an error submitting your recipe.");
+  }
+});
 
 // Start server on port 3000
 app.listen(3000,function(){
@@ -275,8 +331,8 @@ app.listen(3000,function(){
 // Test session route
 app.get("/session-test", function (req, res) {
     if (req.session.userId) {
-        res.send(`✅ Session is active! User ID: ${req.session.userId}`);
+        res.send(`Session is active! User ID: ${req.session.userId}`);
     } else {
-        res.send("❌ No active session. Please log in.");
+        res.send("No active session. Please log in.");
     }
 });

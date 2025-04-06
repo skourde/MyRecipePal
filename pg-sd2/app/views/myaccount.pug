@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  .user-profile-page
+    h1 #{user.firstName}'s Recipes
+
+    .user-details
+      p These are all the delicious recipes posted by #{user.firstName} #{user.lastName}.
+
+    .user-recipes
+      h2 Your Recipes
+      if user.recipes && user.recipes.length > 0
+        each recipe in user.recipes
+          .recipe
+            h3= recipe.title
+            img(src=recipe.image, alt=recipe.title)
+            p= recipe.description
+      else
+        p No recipes posted yet.
+
+    .post-recipe-form
+      h2 Post a New Recipe
+
+      form(method="POST", action=`/submit-recipe/${user.user_id}`, enctype="multipart/form-data")
+        label(for="title") Title:
+        input(type="text", name="title", required)
+
+        label(for="description") Description:
+        textarea(name="description", required)
+
+        label(for="ingredients") Ingredients (one per line):
+        textarea(name="ingredients", required)
+
+        label(for="instructions") Instructions:
+        textarea(name="instructions", required)
+
+        label(for="category_id") Choose Cuisine:
+        select(name="category_id", required)
+          each category in categories
+            option(value=category.category_id)= category.category_name
+
+        label(for="image") Upload an image:
+        input(type="file", name="image", accept="image/*")
+
+        button(type="submit") Submit Recipe
+
+    a(href="/user-list", class="back-button") Go back to User List
