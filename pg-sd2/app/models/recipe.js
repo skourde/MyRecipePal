@@ -41,14 +41,30 @@ class Recipe {
                  (SELECT COUNT(*) FROM likes WHERE likes.recipe_id = recipe.recipe_id) AS like_count
           FROM recipe
           JOIN user ON recipe.user_id = user.user_id
-          WHERE recipe.recipe_id = ?`;
+          WHERE recipe.recipe_id = ?
+        `;
         const results = await db.query(sql, [recipeId]);
+        
         if (results.length > 0) {
             const r = results[0];
-            return new Recipe(r.recipe_id, r.title, r.description, r.image, r.user_id, r.category_id, r.ingredients, r.instructions);
+            return new Recipe(
+                r.recipe_id,
+                r.title,
+                r.description,
+                r.image,
+                r.user_id,
+                r.category_id,
+                r.ingredients,
+                r.instructions,
+                r.user_firstname, 
+                r.like_count,     
+                null              
+            );
         }
+    
         return null;
     }
+    
 
     static async getRecipesByCategory(categoryId) {
         const sql = `
@@ -63,6 +79,30 @@ class Recipe {
         const results = await db.query(sql, [categoryId]);
         return results.map(row => new Recipe(row.recipe_id, row.title, row.description, row.image, row.user_id, row.category_id, row.ingredients, row.instructions, row.user_firstname, row.like_count, row.category_name));
     }
+
+    static async getFeaturedRecipes() {
+        const sql = `
+            SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name AS cuisineType
+            FROM recipe
+            JOIN category ON recipe.category_id = category.category_id
+            LIMIT 4
+        `;
+        const results = await db.query(sql, []);
+        return results.map(row => new Recipe(
+            row.recipe_id,
+            row.title,
+            row.description,
+            row.image,
+            null,
+            row.category_id,
+            null,
+            null,
+            null,
+            null,
+            row.cuisineType // or row.category_name
+        ));
+    }
+    
 }
 
 module.exports = { Recipe };

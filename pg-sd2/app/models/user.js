@@ -38,6 +38,17 @@ class User {
         }
     }
 
+    static async getAllUsers() {
+        const sql = 'SELECT * FROM user';
+        const results = await db.query(sql);
+        return results.map(row => {
+            const user = new User(row.user_id);
+            user.firstName = row.firstName; // manually assign first name
+            return user;
+        });
+    }
+    
+
 }
 
 module.exports = {

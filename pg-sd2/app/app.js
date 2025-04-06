@@ -27,36 +27,29 @@ const { Recipe } = require("./models/recipe");
 const { Category } = require("./models/category");
 
 // Define route for homepage
-app.get("/homepage", function (req, res) {
-    const recipeSql = `
-        SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name AS cuisineType
-        FROM recipe
-        JOIN category ON recipe.category_id = category.category_id
-        LIMIT 4
-    `;
-
-    db.query(recipeSql)
-        .then(results => {
-            res.render("homepage", {
-                recipes: results || []
-            });
-        })
-        .catch(err => {
-            console.error('Error fetching featured recipes:', err);
-            res.render("homepage", {
-                recipes: []
-            });
-        });
+app.get("/homepage", async function (req, res) {
+    try {
+        const recipes = await Recipe.getFeaturedRecipes();
+        res.render("homepage", { recipes: recipes });
+    } catch (err) {
+        console.error('Error fetching featured recipes:', err);
+        res.render("homepage", { recipes: [] });
+    }
 });
+
 
 
 //User list page
-app.get("/user-list", function(req, res) {
-    var sql = 'SELECT * FROM user';
-    db.query(sql).then(results => {
-        res.render('user-list', {data:results});
-    });
+app.get("/user-list", async function(req, res) {
+    try {
+        const users = await User.getAllUsers();
+        res.render('user-list', { data: users });
+    } catch (err) {
+        console.error("❌ Error fetching users:", err);
+        res.status(500).send("Error fetching users");
+    }
 });
+
 
 //User profile page
 app.get("/user-profile/:id", async function(req, res) {
@@ -160,25 +153,23 @@ app.get("/categories/:id", async function (req, res) {
 
 
 //Single recipe - individual recipe details
-app.get("/recipes/:id", function (req, res) {
-    var recipeId = req.params.id;
-    var sql = `
-      SELECT recipe.*, 
-             user.FirstName AS user_firstname,
-             (SELECT COUNT(*) FROM likes WHERE likes.recipe_id = recipe.recipe_id) AS like_count
-      FROM recipe
-      JOIN user ON recipe.user_id = user.user_id
-      WHERE recipe.recipe_id = ?`;
-      
-    db.query(sql, [recipeId]).then(results => {
-        res.render("recipes", {
-            recipe: results[0]
-        }); 
-    }).catch(err => {
+app.get("/recipes/:id", async function (req, res) {
+    const recipeId = req.params.id;
+
+    try {
+        const recipe = await Recipe.getRecipeById(recipeId);
+
+        if (recipe) {
+            res.render("recipes", { recipe: recipe });
+        } else {
+            res.status(404).send("Recipe not found");
+        }
+    } catch (err) {
         console.error("❌ Database Query Error:", err);
         res.status(500).send("Error fetching recipe details");
-    });
+    }
 });
+
 
 
 // Route for future possible Categories page
