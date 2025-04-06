@@ -9,27 +9,26 @@ body {
 }
 
 /* Hero Section with Background */
-.user-list-page {
+.hero-container {
     background: linear-gradient(to right, #E4C0BF, #E3BCBA, #E6A8AE, #E69AA7);
     text-align: center;
     padding: 50px 20px;
     position: relative;
-}
-
-/* Container for the Title */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    text-align: center;
+    margin-bottom: 30px; /* Add some space before the table */
 }
 
 /* Title Styling */
-.user-list-page h1 {
-    font-size: 3.5rem;
+.hero-container h1 {
+    font-size: 2.5rem;
     margin-bottom: 10px;
     font-weight: 700;
     letter-spacing: 2px;
+    color: #fff;
+}
+
+.hero-container p {
+    font-size: 1.3rems;
+    margin-bottom: 20px;
     color: #fff;
 }
 
@@ -67,26 +66,37 @@ body {
     background-color: #E2E2E2;
 }
 
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+/* User List Cards */
+.user-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
 
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-}
-
-td {
+.user-card {
     background-color: #fff;
-    border-bottom: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 200px;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.user-card:hover {
+    transform: translateY(-10px); /* Slight lift on hover */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.user-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
 }
 
 /* Table Links */
@@ -102,15 +112,20 @@ a:hover {
 
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
-    .user-list-page {
-        padding: 10px;
+    .hero-container {
+        padding: 30px 10px;
     }
 
-    table {
-        font-size: 14px;
+    .search-bar input[type="text"] {
+        width: 60%;
     }
 
-    th, td {
-        padding: 8px;
+    .user-list-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .user-card {
+        width: 80%;
     }
 }
