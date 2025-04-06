@@ -61,11 +61,14 @@ app.get("/homepage", async function (req, res) {
     }
 });
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> 6295e9234311171fbfd6c239b4c60eccc590be43
 //set up multer storage
 const storage = multer.diskStorage ({
     destination: function (req, file, cb) {
@@ -111,6 +114,14 @@ app.get("/user-profile/:id", async function(req, res) {
     res.render('user-profile', {user:user});
 });
 
+app.get("/myaccount", function (req, res) {
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
+
+    res.redirect(`/myaccount/${req.session.userId}`);
+});
+
 app.get("/myaccount/:id", async function (req, res) {
     const userIdFromUrl = req.params.id;
 
@@ -128,7 +139,7 @@ app.get("/myaccount/:id", async function (req, res) {
     try {
         const user = new User(userIdFromUrl);
         await user.getUserDetails();
-        await user.getUserRecipes();  // This will populate user.recipes
+        await user.getUserRecipes();
 
         const categories = await db.query("SELECT * FROM category");
         res.render("myaccount", { user: user, categories: categories });
@@ -330,6 +341,29 @@ app.post("/submit-recipe/:userId", upload.single("image"), async (req, res) => {
     console.error("Failed to save recipe:", err);
     res.status(500).send("There was an error submitting your recipe.");
   }
+});
+
+//deleting a recipe
+app.post("/recipes/delete/:id", async function (req, res) {
+    const recipeId = req.params.id;
+
+    if (!req.session.userId) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    try {
+        const deleted = await Recipe.deleteById(recipeId);
+
+        if (deleted) {
+            console.log("Recipe deleted:", recipeId);
+            res.redirect(`/myaccount/${req.session.userId}`);
+        } else {
+            res.status(404).send("Recipe not found or already deleted");
+        }
+    } catch (err) {
+        console.error("Error deleting recipe:", err);
+        res.status(500).send("Error deleting recipe");
+    }
 });
 
 // Start server on port 3000
