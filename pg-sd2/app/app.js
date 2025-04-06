@@ -47,27 +47,20 @@ const { Recipe } = require("./models/recipe");
 const { Category } = require("./models/category");
 
 // Define route for homepage
-app.get("/homepage", function (req, res) {
-    const recipeSql = `
-        SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name AS cuisineType
-        FROM recipe
-        JOIN category ON recipe.category_id = category.category_id
-        LIMIT 5
-    `;
-
-    db.query(recipeSql)
-        .then(results => {
-            res.render("homepage", {
-                recipes: results || []
-            });
-        })
-        .catch(err => {
-            console.error('Error fetching featured recipes:', err);
-            res.render("homepage", {
-                recipes: []
-            });
+app.get("/homepage", async function (req, res) {
+    try {
+        const recipes = await Recipe.getFeaturedRecipes();
+        res.render("homepage", {
+            recipes: recipes || []
         });
+    } catch (err) {
+        console.error('❌ Error fetching featured recipes:', err);
+        res.render("homepage", {
+            recipes: []
+        });
+    }
 });
+
 
 
 

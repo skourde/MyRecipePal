@@ -163,27 +163,28 @@ class Recipe {
         ));
     }
 
-    // Fetch featured recipes (can be used for homepage)
+        // Fetch featured recipes (for homepage)
     static async getFeaturedRecipes() {
         const sql = `
-            SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name AS cuisineType
+            SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description, category.category_name
             FROM recipe
             JOIN category ON recipe.category_id = category.category_id
-            LIMIT 4
+            LIMIT 5
         `;
         const results = await db.query(sql, []);
+
         return results.map(row => new Recipe(
-            row.recipe_id,
-            row.title,
-            row.description,
-            null,
-            null,
-            row.image,
-            null,
-            row.category_id,
-            null,
-            null,
-            row.cuisineType
+            row.recipe_id,      // recipe_id
+            row.title,          // title
+            row.description,    // description
+            null,               // ingredients (not selected)
+            null,               // instructions (not selected)
+            row.image,          // image
+            null,               // user_id (not selected)
+            row.category_id,    // category_id (available if you want, or null)
+            null,               // user_firstname (not selected)
+            null,               // like_count (not selected)
+            row.category_name   // ✅ category_name properly!
         ));
     }
 }
