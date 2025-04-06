@@ -27,6 +27,7 @@ const { Recipe } = require("./models/recipe");
 const { Category } = require("./models/category");
 
 // Define route for homepage
+<<<<<<< HEAD
 app.get("/homepage", function (req, res) {
     const recipeSql = `
         SELECT recipe.recipe_id, recipe.title, recipe.image, recipe.description,
@@ -49,17 +50,31 @@ app.get("/homepage", function (req, res) {
                 recipes: []
             });
         });
+=======
+app.get("/homepage", async function (req, res) {
+    try {
+        const recipes = await Recipe.getFeaturedRecipes();
+        res.render("homepage", { recipes: recipes });
+    } catch (err) {
+        console.error('Error fetching featured recipes:', err);
+        res.render("homepage", { recipes: [] });
+    }
+>>>>>>> e6502e6890fe105238f4d1a018a877bc24dd5d9a
 });
 
 
 
 //User list page
-app.get("/user-list", function(req, res) {
-    var sql = 'SELECT * FROM user';
-    db.query(sql).then(results => {
-        res.render('user-list', {data:results});
-    });
+app.get("/user-list", async function(req, res) {
+    try {
+        const users = await User.getAllUsers();
+        res.render('user-list', { data: users });
+    } catch (err) {
+        console.error("❌ Error fetching users:", err);
+        res.status(500).send("Error fetching users");
+    }
 });
+
 
 //User profile page
 app.get("/user-profile/:id", async function(req, res) {
@@ -105,11 +120,53 @@ app.get("/hello/:name", function(req, res) {
 app.get("/login", function (req, res){
     res.render("login");
     });
-
+    app.post("/login", async function (req, res) {
+        try {
+            const { email, password } = req.body;
+    
+            if (!email || !password) {
+                return res.status(400).send("Please fill all required fields.");
+            }
+    
+            const user = await User.findByEmailAndPassword(email, password);
+    
+            if (user) {
+                console.log("✅ User logged in:", user.firstName);
+                res.redirect("/homepage"); // later we can redirect to profile
+            } else {
+                console.log("❌ Login failed for:", email);
+                res.status(401).send("Invalid email or password.");
+            }
+        } catch (err) {
+            console.error("❌ Error during login:", err);
+            res.status(500).send("Error during login.");
+        }
+    });
+    
 //Sign in page
 app.get("/signup", function (req, res){
     res.render("sign-up");
     });
+// POST route for handling user sign-up
+app.post("/signup", async function (req, res) {
+    try {
+        const { fullname, email, password } = req.body;
+
+        if (!fullname || !email || !password) {
+            return res.status(400).send("Please fill all required fields.");
+        }
+
+        await User.createUser(fullname, email, password);
+
+        console.log("✅ New user inserted:", fullname);
+
+        res.redirect("/login");
+
+    } catch (err) {
+        console.error("❌ Error signing up:", err);
+        res.status(500).send("Error signing up user.");
+    }
+});
 
 //About us page
 app.get("/aboutus", function (req, res){
@@ -163,25 +220,23 @@ app.get("/categories/:id", async function (req, res) {
 
 
 //Single recipe - individual recipe details
-app.get("/recipes/:id", function (req, res) {
-    var recipeId = req.params.id;
-    var sql = `
-      SELECT recipe.*, 
-             user.FirstName AS user_firstname,
-             (SELECT COUNT(*) FROM likes WHERE likes.recipe_id = recipe.recipe_id) AS like_count
-      FROM recipe
-      JOIN user ON recipe.user_id = user.user_id
-      WHERE recipe.recipe_id = ?`;
-      
-    db.query(sql, [recipeId]).then(results => {
-        res.render("recipes", {
-            recipe: results[0]
-        }); 
-    }).catch(err => {
+app.get("/recipes/:id", async function (req, res) {
+    const recipeId = req.params.id;
+
+    try {
+        const recipe = await Recipe.getRecipeById(recipeId);
+
+        if (recipe) {
+            res.render("recipes", { recipe: recipe });
+        } else {
+            res.status(404).send("Recipe not found");
+        }
+    } catch (err) {
         console.error("❌ Database Query Error:", err);
         res.status(500).send("Error fetching recipe details");
-    });
+    }
 });
+
 
 
 // Route for future possible Categories page

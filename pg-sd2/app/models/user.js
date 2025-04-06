@@ -38,6 +38,49 @@ class User {
         }
     }
 
+    static async getAllUsers() {
+        const sql = 'SELECT * FROM user';
+        const results = await db.query(sql);
+        return results.map(row => {
+            const user = new User(row.user_id);
+            user.firstName = row.firstName; // manually assign first name
+            return user;
+        });
+    }
+    
+    static async createUser(fullname, email, password) {
+        const sql = `
+            INSERT INTO user (role, password, email, firstName, lastName)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        await db.query(sql, [
+            'user',        // default role
+            password,      // plain password (later we hash it)
+            email,         
+            fullname,      // save fullname in firstName (for now)
+            ''             // empty lastName
+        ]);
+    }
+    static async findByEmailAndPassword(email, password) {
+        const sql = `
+            SELECT * FROM user
+            WHERE email = ? AND password = ?
+            LIMIT 1
+        `;
+        const results = await db.query(sql, [email, password]);
+    
+        if (results.length > 0) {
+            const row = results[0];
+            const user = new User(row.user_id);
+            user.firstName = row.firstName;
+            user.email = row.email;
+            return user;
+        } else {
+            return null;
+        }
+    }
+    
+
 }
 
 module.exports = {
