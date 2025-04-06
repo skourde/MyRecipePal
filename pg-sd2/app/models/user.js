@@ -21,22 +21,25 @@ class User {
     //gets the user's name from the database
     async getUserDetails() {
         if (typeof this.firstName !== 'string') {
-            var sql = "SELECT * FROM user WHERE user_id =?"
+            var sql = "SELECT * FROM user WHERE user_id = ?";
             const results = await db.query(sql, [this.user_id]);
             if (results.length > 0) {
-                this.firstName = results[0].firstName
+                this.firstName = results[0].firstName;
+                this.lastName = results[0].lastName; 
             }
         }
     }
 
     //gets the recipes of this user
     async getUserRecipes() {
-        var sql = "SELECT * FROM recipe WHERE user_id = ?"
+        var sql = "SELECT recipe_id, title, image FROM recipe WHERE user_id = ?";
         const results = await db.query(sql, [this.user_id]);
         for (var row of results) {
-            this.recipe.push(new Recipe(row.recipe_id, row.title));
+            this.recipe.push(new Recipe(row.recipe_id, row.title, null, row.image));
+            // Passing image in constructor (description = null for now)
         }
     }
+    
 
     static async getAllUsers() {
         const sql = 'SELECT * FROM user';
