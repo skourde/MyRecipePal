@@ -100,6 +100,26 @@ app.get("/login", function (req, res){
 app.get("/signup", function (req, res){
     res.render("sign-up");
     });
+// POST route for handling user sign-up
+app.post("/signup", async function (req, res) {
+    try {
+        const { fullname, email, password } = req.body;
+
+        if (!fullname || !email || !password) {
+            return res.status(400).send("Please fill all required fields.");
+        }
+
+        await User.createUser(fullname, email, password);
+
+        console.log("✅ New user inserted:", fullname);
+
+        res.redirect("/login");
+
+    } catch (err) {
+        console.error("❌ Error signing up:", err);
+        res.status(500).send("Error signing up user.");
+    }
+});
 
 //About us page
 app.get("/aboutus", function (req, res){

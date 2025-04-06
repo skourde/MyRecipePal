@@ -48,6 +48,20 @@ class User {
         });
     }
     
+    static async createUser(fullname, email, password) {
+        const sql = `
+            INSERT INTO user (role, password, email, firstName, lastName)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        await db.query(sql, [
+            'user',        // default role
+            password,      // plain password (later we hash it)
+            email,         
+            fullname,      // save fullname in firstName (for now)
+            ''             // empty lastName
+        ]);
+    }
+    
 
 }
 
