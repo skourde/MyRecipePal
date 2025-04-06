@@ -55,7 +55,17 @@ app.get("/homepage", async function (req, res) {
     }
 });
 
-
+app.get('/recipes-list', (req, res) => {
+    const searchQuery = req.query.search || ''; // Get search query from URL
+    
+    // Filter recipes based on title (case-insensitive search)
+    const filteredRecipes = recipes.filter(recipe =>
+      recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    
+    res.render('recipes-list', { recipes: filteredRecipes });
+  });
+  
 
 //User list page
 app.get("/user-list", async function(req, res) {

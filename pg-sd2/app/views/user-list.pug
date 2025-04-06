@@ -1,4 +1,4 @@
-extends layout 
+extends layout
 
 block head
   link(rel="stylesheet", href="/user-list.css")
@@ -6,14 +6,35 @@ block head
 block content
   .user-list-page
     h1 User List
+
+    // Search Section
+    .search-bar
+      input(type="text" id="searchInput" placeholder="Search by name..." oninput="filterUsers()")
+      button(id="searchButton", type="button") Search
+
+    // User List Table
     table(border=1)
       thead
         tr
-          th User ID
           th Name
-      tbody
+      tbody(id="userList")
         for item in data
-          tr
-            td #{item.user_id}
+          tr(class="user-row")
             td
-              a(href='/user-profile/' + item.user_id) #{item.firstName}
+              a(href='/user-profile/' + item.user_id) #{item.firstName} #{item.lastName}
+
+  // Add this to make the search functional
+  script.
+    function filterUsers() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const userRows = document.querySelectorAll('.user-row');
+
+      userRows.forEach(row => {
+        const userName = row.textContent.toLowerCase();
+        if (userName.includes(searchInput)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
