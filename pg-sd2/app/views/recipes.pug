@@ -37,6 +37,13 @@ block content
               strong Likes:
               span= recipe.like_count
 
+    // Comment Section
+    .comment-section
+      h2 Comments
+      form#commentForm(onsubmit="submitComment(event)")
+        textarea(id="commentInput" placeholder="Write a comment..." required)
+        button(type="submit") Post Comment
+      ul#commentList
 
     // Button to go back to recipe list
     a(href="/recipes", class="back-button") Go back to Recipes List

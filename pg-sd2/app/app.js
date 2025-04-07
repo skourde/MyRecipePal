@@ -56,7 +56,7 @@ app.get("/homepage", async function (req, res) {
             recipes: recipes || []
         });
     } catch (err) {
-        console.error('❌ Error fetching featured recipes:', err);
+        console.error('Error fetching featured recipes:', err);
         res.render("homepage", {
             recipes: []
         });

@@ -1,11 +1,15 @@
 extends layout
 
+block head
+  link(rel="stylesheet", href="/myaccount.css")
+  link(href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap", rel="stylesheet")
+
 block content
   .user-profile-page
     h1 #{user.firstName}'s Recipes
 
     .user-details
-      p These are all the delicious recipes posted by #{user.firstName} #{user.lastName}.
+      p Welcome #{user.firstName} to your account!
 
     .user-recipes
       h2 Your Recipes
@@ -22,34 +26,41 @@ block content
       h2 Post a New Recipe
 
       form(method="POST", action=`/submit-recipe/${user.user_id}`, enctype="multipart/form-data")
-        label(for="title") Title:
-        input(type="text", name="title", required)
+        .form-group
+          label(for="title") Title:
+          input(type="text", name="title", required)
 
-        label(for="description") Description:
-        textarea(name="description", required)
+        .form-group
+          label(for="description") Description:
+          textarea(name="description", required)
 
-        label(for="ingredients") Ingredients (one per line):
-        textarea(name="ingredients", required)
+        .form-group
+          label(for="ingredients") Ingredients (one per line):
+          textarea(name="ingredients", required)
 
-        label(for="instructions") Instructions:
-        textarea(name="instructions", required)
+        .form-group
+          label(for="instructions") Instructions:
+          textarea(name="instructions", required)
 
-        label(for="category_id") Choose Cuisine:
-        select(name="category_id", required)
-          each category in categories
-            option(value=category.category_id)= category.category_name
+        .form-group
+          label(for="category_id") Choose Cuisine:
+          select(name="category_id", required)
+            each category in categories
+              option(value=category.category_id)= category.category_name
 
-        label(for="image") Upload an image:
-        input(type="file", name="image", accept="image/*")
+        .form-group
+          label(for="image") Upload an image:
+          input(type="file", name="image", accept="image/*")
 
         button(type="submit") Submit Recipe
 
+    if user.recipes && user.recipes.length > 0
       each recipe in user.recipes
         .recipe-card
-        h3= recipe.title
-        img(src=recipe.image, alt=recipe.title)
-        p= recipe.description
-        form(method="POST", action=`/recipes/delete/${recipe.recipe_id}`, onsubmit="return confirm('Are you sure you want to delete this recipe?');")
-          button(type="submit") Delete Recipe
+          h3= recipe.title
+          img(src=recipe.image, alt=recipe.title)
+          p= recipe.description
+          form(method="POST", action=`/recipes/delete/${recipe.recipe_id}`, onsubmit="return confirm('Are you sure you want to delete this recipe?');")
+            button(type="submit") Delete Recipe
 
-    a(href="/user-list", class="back-button") Browse Recipe Creators
+    a.back-button(href="/user-list") Browse Recipe Creators
