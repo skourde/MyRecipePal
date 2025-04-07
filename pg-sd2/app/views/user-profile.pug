@@ -19,7 +19,6 @@ block content
                   img(src=recipe.image, alt=recipe.title, class="recipe-image")
                 .recipe-info
                   h3 #{recipe.title}
-                  p Likes: #{recipe.like_count}
                   a(href="/recipes/" + recipe.recipe_id, class="view-recipe-btn") View Recipe
         else
           p.no-recipes This user hasn't posted any recipes yet.
