@@ -184,7 +184,7 @@ class Recipe {
             row.category_id,    // category_id (available if you want, or null)
             null,               // user_firstname (not selected)
             null,               // like_count (not selected)
-            row.category_name   // ✅ category_name properly!
+            row.category_name   // category_name properly!
         ));
     }
 
