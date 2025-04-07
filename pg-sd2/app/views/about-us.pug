@@ -1,16 +1,34 @@
 extends layout
 
 block head
-  link(rel="stylesheet", href="/css/about-us.css")
+  link(rel="stylesheet", href="/about-us.css")
+  link(href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap", rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap", rel="stylesheet")
 
 block content
   .about-wrapper
-    h2 About Us...
+    h2 About Us
+    
+
     .about-main
-      .about-left
-        p A bit about us
-      .about-right
-        img.headshot(src="/images/sonja.png", alt="Sonja")
-        img.headshot(src="/images/sandora.png", alt="Sandora")
-        img.headshot(src="/images/faisa.png", alt="Faisa")
-        img.headshot(src="/images/gal.png", alt="Gal")
+      .about-story
+        p
+          | MyRecipePal started with a simple idea: to connect home cooks from around the world through stories, flavors, and a shared love for food. We believe recipes are more than instructions — they're family traditions, cultural memories, and love passed down in every bite.
+        p
+          | Built by friends who love food, design, and storytelling, our mission is to make sharing recipes as joyful as cooking them.
+
+      .team-corner
+        h3 Meet the Team
+        .team-grid
+          .team-member
+            img.headshot(src="/images/sonja.png", alt="Sonja")
+            span Sonja
+          .team-member
+            img.headshot(src="/images/sandora.png", alt="Sandora")
+            span Sandora
+          .team-member
+            img.headshot(src="/images/faisa.png", alt="Faisa")
+            span Faisa
+          .team-member
+            img.headshot(src="/images/gal.png", alt="Gal")
+            span Gal

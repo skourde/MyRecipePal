@@ -1,52 +1,73 @@
 .about-wrapper {
   max-width: 1000px;
   margin: 60px auto;
-  padding: 0 20px;
+  padding: 40px;
   font-family: 'Lora', serif;
+  background-color: #fffdfd;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-/* Heading above grey box */
 .about-wrapper h2 {
-  font-size: 2.5rem;
+  text-align: center;
+  font-size: 2.4rem;
   color: #333;
+  margin-bottom: 40px;
+}
+
+.about-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Story section */
+.about-story {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #444;
+}
+
+/* Team corner styling */
+.team-corner {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+}
+
+.team-corner h3 {
+  font-size: 1.3rem;
+  color: #444;
   margin-bottom: 20px;
 }
 
-/* Grey box container */
-.about-main {
-  background-color: #d3d3d3;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px;
+/* Grid of team images */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  justify-items: center;
 }
 
-/* Left paragraph area */
-.about-left {
-  flex: 1;
-}
-
-.about-left p {
-  font-size: 1.2rem;
-  color: #555;
-  margin: 0;
-}
-
-/* Right side image stack */
-.about-right {
-  flex: 1;
+/* Individual team member block */
+.team-member {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 15px;
+  align-items: center;
 }
 
-/* Circular headshots */
+/* Image sizing */
 .headshot {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
+  width: 140px;
+  height: 150px;
   border-radius: 50%;
-  background-color: #ccc;
-  border: none;
+  margin-bottom: 6px;
+}
+
+.team-member span {
+  font-size: 0.9rem;
+  color: #666;
 }
