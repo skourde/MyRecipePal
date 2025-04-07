@@ -4,6 +4,8 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 
+const axios = require('axios');
+
 // Import express-session middleware for managing user sessions
 const session = require('express-session');
 
@@ -371,3 +373,52 @@ app.get("/session-test", function (req, res) {
       res.send("No active session. Please log in.");
     }
   });
+
+  app.get("/search-foods", async function (req, res) {
+    const clientId = "8488278ddc8f426a899e509fddeb61e1";
+    const clientSecret = "7240aac69c9e448facef3f8c8c1e0170";
+    const searchTerm = req.query.q;
+
+    if (!searchTerm) {
+        // If no search term, render empty page (no API call yet)
+        return res.render('search-foods', { foods: [] });
+    }
+
+    try {
+        const tokenResponse = await axios({
+            method: 'post',
+            url: 'https://oauth.fatsecret.com/connect/token',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+                username: clientId,
+                password: clientSecret
+            },
+            data: 'grant_type=client_credentials'
+        });
+
+        const accessToken = tokenResponse.data.access_token;
+
+        const foodResponse = await axios({
+            method: 'get',
+            url: 'https://platform.fatsecret.com/rest/server.api',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            },
+            params: {
+                method: 'foods.search',
+                search_expression: searchTerm,
+                format: 'json'
+            }
+        });
+
+        const foods = foodResponse.data.foods.food || [];
+
+        res.render('search-foods', { foods: foods });
+
+    } catch (err) {
+        console.error("Error calling FatSecret API:", err.response ? err.response.data : err.message);
+        res.status(500).send("Error calling FatSecret API");
+    }
+});

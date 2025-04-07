@@ -1,0 +1,25 @@
+extends layout
+
+block head
+  link(rel="stylesheet", href="/search-foods.css")
+
+block content
+  .hero-section
+    h1 Search Foods from FatSecret
+
+    form(action="/search-foods" method="GET" class="search-bar")
+      input(type="text", name="q", placeholder="Search foods...")
+      button(type="submit") Search
+
+  .container
+    if foods.length > 0
+      ul.food-list
+        each food in foods
+          li.food-item
+            h2= food.food_name
+            p= food.food_description
+            if food.food_url
+              a(href=food.food_url, target="_blank" class="view-food-btn") View Details
+    else
+      p 
+
