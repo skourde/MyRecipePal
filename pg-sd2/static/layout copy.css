@@ -1,0 +1,135 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lora', serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+  background-color: #7BA1B5;
+  font-family: 'Lora', serif;
+  padding: 30px 210px;
+  display: flex;
+  justify-content: space-between; /* Distribute logo and nav across the header */
+  align-items: center; /* Center vertically */
+}
+
+.slogan {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4em;
+  color: #ffffff;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+
+header h1 {
+  font-family: 'Lora', serif;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: bold;
+   /* Remove default margin from h1 */
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center; /* Center the navigation links */
+  gap: 30px;
+  
+  margin-top: 10px;
+}
+
+nav ul li {
+  font-size: 16px;
+  
+}
+
+nav ul li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+  
+}
+
+nav ul li a:hover {
+  color: #ffffff;
+}
+
+/* Main Content Area */
+main {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+main h1 {
+  font-size: 2rem;
+  color: #fcfcfc;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Content Block (Recipe Page or others) */
+.recipe-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recipe-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Footer Styling */
+footer {
+  text-align: center;
+  background-color: #7BA1B5;
+  color: #ecf0f1;
+  padding: 15px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .recipe-page {
+    padding: 10px;
+  }
+
+  main {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: center; /* Align items center when in mobile view */
+    text-align: center;
+  }
+
+  header h1 {
+    margin-top: 10px;
+  }
+}
