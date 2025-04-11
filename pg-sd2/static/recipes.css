@@ -152,6 +152,105 @@ body {
 .back-button:hover {
   background: #ee0979;
 }
+/*Like Button */
+
+.like-button {
+  padding: 8px 16px;
+  background-color: #ee0979;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.like-button:hover {
+  background-color: #E3BCBA;
+}
+
+/* Comment Display Section */
+.comment-display-section {
+  margin: 40px auto;
+  width: 60%;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.comment-display-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comment-item {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.comment-item a {
+  font-weight: bold;
+  color: #E3BCBA;
+  text-decoration: none;
+  margin-right: 8px;
+}
+
+.comment-item a:hover {
+  text-decoration: underline;
+}
+
+.comment-item span {
+  color: #666;
+}
+
+.comment-item {
+  position: relative;
+  background-color: #f9f9f9;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
+  color: #444;
+}
+
+/* The delete button form */
+.delete-comment-form {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+/* Delete button styling */
+.delete-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+}
+
+/* When hover over comment-item, show the delete button */
+.comment-item:hover .delete-button {
+  display: inline;
+}
+
+
+
+
 
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {

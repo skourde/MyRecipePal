@@ -48,6 +48,12 @@ const { Recipe } = require("./models/recipe");
 // Get the category model
 const { Category } = require("./models/category");
 
+// Get the like model
+const { Like } = require('./models/like'); 
+
+// Get the comment model
+const { Comment } = require('./models/comment');
+
 // Define route for homepage
 app.get("/homepage", async function (req, res) {
     try {
@@ -292,9 +298,10 @@ app.get("/recipes/:id", async function (req, res) {
 
     try {
         const recipe = await Recipe.getRecipeById(recipeId);
+        const comments = await Comment.getCommentsByRecipe(recipeId);
 
         if (recipe) {
-            res.render("recipes", { recipe: recipe });
+            res.render("recipes", { recipe: recipe, comments: comments, userId: req.session.userId || null });
         } else {
             res.status(404).send("Recipe not found");
         }
@@ -336,6 +343,89 @@ app.post("/submit-recipe/:userId", upload.single("image"), async (req, res) => {
     res.status(500).send("There was an error submitting your recipe.");
   }
 });
+
+// Route for liking a recipe
+app.post("/like/:recipeId", async function (req, res) {
+    const userId = req.session.userId;
+    const recipeId = req.params.recipeId;
+
+    if (!userId) {
+        return res.status(401).send("Unauthorized: Please log in to like a recipe.");
+    }
+
+    try {
+        const alreadyLiked = await Like.hasUserLiked(userId, recipeId);
+
+        if (alreadyLiked) {
+            // Optional: remove like if already liked (toggle like/unlike)
+            await Like.removeLike(userId, recipeId);
+            console.log(`User ${userId} removed like from recipe ${recipeId}`);
+        } else {
+            await Like.addLike(userId, recipeId);
+            console.log(`User ${userId} liked recipe ${recipeId}`);
+        }
+
+        res.redirect(`/recipes/${recipeId}`);
+    } catch (err) {
+        console.error("Error handling like:", err);
+        res.status(500).send("Error processing like");
+    }
+});
+
+// Post a comment on a recipe
+app.post("/recipes/:id/comments", async function (req, res) {
+    const recipeId = req.params.id;
+    const userId = req.session.userId;  // Get the logged-in user's ID
+    const { content } = req.body;       // Get the comment text from the form
+
+    if (!userId) {
+        return res.status(401).send("You must be logged in to post a comment.");
+    }
+
+    if (!content) {
+        return res.status(400).send("Comment content cannot be empty.");
+    }
+
+    try {
+        await Comment.addComment(userId, recipeId, content);
+        res.redirect(`/recipes/${recipeId}`); // After posting, reload the recipe page
+    } catch (err) {
+        console.error("Error adding comment:", err);
+        res.status(500).send("Error posting comment.");
+    }
+});
+
+//deleting a comment
+app.post("/comments/:id/delete", async function(req, res) {
+    const commentId = req.params.id;
+
+    if (!req.session.userId) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    try {
+        // Before deleting, you should ideally check if the comment belongs to the user.
+        const sql = `SELECT * FROM comment WHERE comment_id = ?`;
+        const results = await db.query(sql, [commentId]);
+        
+        if (results.length > 0) {
+            const comment = results[0];
+            if (comment.user_id === req.session.userId) {
+                await Comment.deleteComment(commentId);
+                res.redirect("back");  // Go back to the recipe page
+            } else {
+                res.status(403).send("You are not allowed to delete this comment.");
+            }
+        } else {
+            res.status(404).send("Comment not found.");
+        }
+
+    } catch (err) {
+        console.error("Error deleting comment:", err);
+        res.status(500).send("Error deleting comment.");
+    }
+});
+
 
 //deleting a recipe
 app.post("/recipes/delete/:id", async function (req, res) {

@@ -3,6 +3,7 @@ extends layout
 block head
   link(rel="stylesheet", href="/recipes.css")
   link(href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap", rel="stylesheet")
+
 block content
   .recipe-page
     h1= recipe.title
@@ -37,13 +38,31 @@ block content
               strong Likes:
               span= recipe.like_count
 
-    // Comment Section
+            // 👍 Like Button (only if logged in)
+            if loggedIn
+              form(action=`/like/${recipe.recipe_id}` method="POST")
+                button(type="submit" class="like-button") Like ❤️
+
+  // Comment Section (Form to post new comment)
+  if loggedIn
     .comment-section
       h2 Comments
-      form#commentForm(onsubmit="submitComment(event)")
-        textarea(id="commentInput" placeholder="Write a comment..." required)
+      form(action=`/recipes/${recipe.recipe_id}/comments` method="POST")
+        textarea(name="content" id="commentInput" placeholder="Write a comment..." required)
         button(type="submit") Post Comment
-      ul#commentList
 
-    // Button to go back to recipe list
-    a(href="/recipes", class="back-button") Go back to Recipes List
+  // Section: Display existing comments
+  .comment-display-section
+    h2 Comments Section
+    ul.comment-list
+      if comments.length > 0
+        each comment in comments
+          li.comment-item
+            a(href=`/user-profile/${comment.user_id}`) #{comment.user_firstname}:
+            span= comment.content
+            if userId === comment.user_id
+             form(action=`/comments/${comment.comment_id}/delete` method="POST" class="delete-comment-form")
+                button(type="submit" class="delete-button") ❌
+
+      else
+        li No comments yet.
