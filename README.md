@@ -13,6 +13,9 @@ This application is targeted at individuals who are looking for new recipes or w
 
 ### Getting started
 
+1) `npm install`
+2) `docker-compose up`
+
 ### Roadmap
 
 ### Contributors
